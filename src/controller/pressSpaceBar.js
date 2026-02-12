@@ -11,7 +11,7 @@ const pressSpaceBar = () => {
         // 만약에 누른 키가 스페이스 바일때
         if(e.code === "Space"){
 
-            console.log("스페이스")
+            popupFish()
 
         }
 
