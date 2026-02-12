@@ -1,5 +1,3 @@
-
-
 const distributeTeamsBalanced = (members, teamCount) => {
   // 1. 빈 팀 생성 (팀 개수만큼)
   // 예: [[], [], []] (3팀인 경우)
