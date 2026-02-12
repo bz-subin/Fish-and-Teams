@@ -1,53 +1,65 @@
 /**
- * [수정된 알고리즘: 지퍼형 스네이크 배정]
- * 1. 남/녀 그룹 분리 및 정렬 (기존 동일)
- * 2. ★수정됨★: 남녀를 번갈아가며(지퍼처럼) 하나의 긴 줄로 합침
- * 3. 합쳐진 줄을 스네이크 방식으로 배정
- * -> 이렇게 해야 인원이 적어도 모든 팀에 골고루 퍼집니다.
+ * [만능 팀 배정 알고리즘]
+ * options: { useAbility: boolean, useGender: boolean, useAge: boolean }
  */
-const distributeTeamsBalanced = (members, teamCount) => {
+const distributeTeamsBalanced = (members, teamCount, options) => {
+  const { useAbility, useGender, useAge } = options;
+
   // 1. 빈 팀 생성
   const teams = Array.from({ length: teamCount }, () => []);
 
-  // 2. 성별 그룹 분리
-  const males = members.filter((m) => m.sex === "남자");
-  const females = members.filter((m) => m.sex === "여자");
-
-  // [정렬 로직] 능력치 우선 -> 나이 우선 (기존과 동일)
-  const sortStrategy = (a, b) => {
-    if (b.value !== a.value) {
-      return b.value - a.value; // 능력치 내림차순
+  // ====================================================
+  // [A] 정렬 전략 생성기 (Dynamic Sort Strategy)
+  // 체크된 조건에 따라 정렬 우선순위를 결정함
+  // ====================================================
+  const getSortStrategy = (a, b) => {
+    // 1순위: 능력치 (체크되었다면)
+    if (useAbility && b.value !== a.value) {
+      return b.value - a.value; // 높은 능력치 우선
     }
-    return b.age - a.age; // 나이 내림차순
+    // 2순위: 나이 (체크되었다면)
+    if (useAge && b.age !== a.age) {
+      // 능력치가 같다면(혹은 안 따진다면) 나이 많은 순
+      return b.age - a.age; 
+    }
+    // 아무 조건도 없거나 동점이면: 무작위성 부여 (또는 등록순)
+    return 0;
   };
 
-  males.sort(sortStrategy);
-  females.sort(sortStrategy);
+  // ====================================================
+  // [B] 줄 세우기 (Grouping & Sorting)
+  // ====================================================
+  let finalQueue = []; // 배정 대기열
 
-  // 3. [★ 핵심 수정 파트] 지퍼(Zipper) 방식으로 합치기
-  // 남자 한 명, 여자 한 명 번갈아가며 줄을 세웁니다.
-  const combinedMembers = [];
-  const maxLength = Math.max(males.length, females.length);
+  if (useGender) {
+    // [조건: 성별 균형 O]
+    // 남자와 여자를 따로 줄 세운 뒤, 지퍼처럼 하나씩 섞습니다.
+    const males = members.filter((m) => m.sex === "남자").sort(getSortStrategy);
+    const females = members.filter((m) => m.sex === "여자").sort(getSortStrategy);
 
-  for (let i = 0; i < maxLength; i++) {
-    if (i < males.length) combinedMembers.push(males[i]);
-    if (i < females.length) combinedMembers.push(females[i]);
+    // 지퍼 병합 (Zipper Merge)
+    const maxLength = Math.max(males.length, females.length);
+    for (let i = 0; i < maxLength; i++) {
+      if (i < males.length) finalQueue.push(males[i]);
+      if (i < females.length) finalQueue.push(females[i]);
+    }
+  } else {
+    // [조건: 성별 균형 X]
+    // 성별 상관없이 전체를 한 줄로 세웁니다.
+    finalQueue = [...members].sort(getSortStrategy);
   }
 
-  // 이제 combinedMembers는 [남1등, 여1등, 남2등, 여2등, 남3등...] 순서입니다.
-
-  // 4. 스네이크 배정 (통합된 리스트로 한 번만 수행)
-  combinedMembers.forEach((member, index) => {
-    // 몇 번째 바퀴인지 (0, 1, 2...)
+  // ====================================================
+  // [C] 스네이크 배정 (Snake Draft)
+  // 준비된 긴 줄(finalQueue)을 앞에서부터 팀에 나눠줍니다.
+  // ====================================================
+  finalQueue.forEach((member, index) => {
     const round = Math.floor(index / teamCount);
-    
-    // 지그재그 방향 결정 (짝수 라운드: 정방향, 홀수 라운드: 역방향)
     const isSnakeBack = round % 2 === 1;
 
-    // 들어갈 팀 인덱스 계산
     const teamIndex = isSnakeBack
-      ? teamCount - 1 - (index % teamCount) // 뒤에서 앞으로 ( <-- )
-      : index % teamCount;                  // 앞에서 뒤로 ( --> )
+      ? teamCount - 1 - (index % teamCount)
+      : index % teamCount;
 
     teams[teamIndex].push(member);
   });
