@@ -1,5 +1,6 @@
 //  bindDistributeEvents 가져오기
 import bindDistributeEvents from "../controller/bindDistributeEvents.js";
+import pressSpaceBar from "../controller/pressSpaceBar.js";
 
 // 가져온 것 테스트
 
@@ -399,6 +400,10 @@ function startcurd() {
 
 // 앱 시작
 startcurd();
+
+// pressSpaceBar 적용
+pressSpaceBar()
+
 
 // [중요] 모듈 스코프 해결을 위한 전역 객체 할당
 // ===========================================================
