@@ -19,8 +19,18 @@
 
     <!-- ===== Favicon ===== -->
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png"/>
-    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png"/>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/img/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/img/favicon-16x16.png"
+    />
 
     <!-- ===== CSS ===== -->
     <link rel="stylesheet" href="css/reset.css" />
@@ -64,46 +74,50 @@
         <section class="members">
           <h2>Members</h2>
 
-          <div
-            class="manage-buttons"
-            style="
-              margin-bottom: 10px;
-              display: flex;
-              gap: 10px;
-              justify-content: flex-end;
-            "
-          >
-            <button
-              onclick="addMember()"
-              class="header-btn"
-              style="background: #4a90e2; color: white"
-            >
-              추가
-            </button>
-            <button
-              onclick="modifyMember()"
-              class="header-btn"
-              style="background: #50c878; color: white"
-            >
-              수정
-            </button>
-            <button
-              onclick="delMember()"
-              class="header-btn"
-              style="background: #ff6b6b; color: white"
-            >
-              삭제
-            </button>
-          </div>
-
           <div class="table">
             <ul class="table-row table-header">
               <li class="table-cells tc-checkbox center">
                 <input type="checkbox" onclick="sumCheckbox(this)" />
               </li>
+              <li class="table-cells tc-number">No</li>
+              <li class="table-cells tc-etc">이름</li>
+              <li class="table-cells tc-etc">나이</li>
+              <li class="table-cells tc-etc">성별</li>
+              <li class="table-cells tc-etc">능력치</li>
             </ul>
 
             <ul class="table-data scrollbar"></ul>
+            <div
+              class="manage-buttons"
+              style="
+                margin: 20px 0;
+                display: flex;
+                gap: 10px;
+                justify-content: flex-end;
+              "
+            >
+              <button
+                onclick="addMember()"
+                class="header-btn"
+                style="background: #4a90e2; color: white"
+              >
+                추가
+              </button>
+              <button
+                onclick="modifyMember()"
+                class="header-btn"
+                style="background: #50c878; color: white"
+              >
+                수정
+              </button>
+              <button
+                onclick="delMember()"
+                class="header-btn"
+                style="background: #ff6b6b; color: white"
+              >
+                삭제
+              </button>
+            </div>
           </div>
         </section>
 
