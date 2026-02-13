@@ -1,0 +1,171 @@
+@font-face {
+	font-family: 'Pretendard Variable';
+	font-weight: 45 920;
+	font-style: normal;
+	font-display: swap;
+	src: url('/font/PretendardVariable.woff2') format('woff2-variations');
+}
+
+
+/* 스크롤바의 폭 너비 */
+.scrollbar::-webkit-scrollbar {
+    width: 6px;  
+}
+.scrollbar::-webkit-scrollbar-thumb {
+    background: #3372FF; /* 스크롤바 색상 */
+    border-radius: 6px; /* 스크롤바 둥근 테두리 */
+}
+.scrollbar::-webkit-scrollbar-track {
+    background: #E3E9ED;  /*스크롤바 뒷 배경 색상*/
+}
+
+/* ===== Body ===== */
+body {  
+    width: calc(100vw - (100vw - 100%));
+	font-family: 'Pretendard Variable';
+    font-size: 14px;
+}
+
+/* ===== Header ===== */
+header { 
+    height: 60px; 
+    width: 100%; 
+    padding: 0 44px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    background: white;
+    border-bottom: 1px solid #E3E9ED;
+}
+.logo { height: 50px; }
+.logo > a { display: block; height: 100%; }
+.logo > a > img { height: 100%; width: auto; }
+
+.header-btn-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.header-btn { 
+    height: 40px; 
+    padding: 0 14px; 
+    border-radius: 20px; 
+    background-color: #fff; 
+    border: 1px solid #3372FF; 
+    color: #3372FF !important; 
+    font-weight: 600;
+}
+
+/* 기본 리스트 스타일 제거 */
+.select-theme {
+    list-style: none;
+    width: 80px;
+}
+
+/* Theme 버튼 스타일 */
+.theme-toggle-btn {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* 화살표 모양 만들기 (CSS 삼각형) */
+.arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #333; /* 아래 방향 화살표 */
+    transition: transform 0.3s ease; /* 회전 애니메이션 */
+}
+
+/* 버튼이 활성화(active) 되었을 때 화살표 회전 */
+.theme-toggle-btn.active .arrow {
+    transform: rotate(180deg);
+}
+
+/* 슬라이드 대상이 되는 UL */
+.theme-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    max-height: 0; /* 처음에는 숨김 */
+    transition: max-height 0.3s ease-out; /* 슬라이드 애니메이션 */
+    background-color: #f9f9f9;
+}
+
+/* UL 내부 버튼들 */
+.theme-list button {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.theme-list button:hover {
+    background-color: #eee;
+}
+
+/* ===== Main ===== */
+main { 
+    min-height: calc(100vh - 60px - 160px);
+    width: 100%; 
+    display: flex; 
+    align-items: stretch; 
+    justify-content: center; 
+}
+.container { width: 960px; padding: 60px 0; }
+.section { 
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid #3372FF;
+    border-radius: 12px;
+    padding: 20px;
+}
+.members { margin-bottom: 40px; }
+h2 { 
+    font-size: 20px; 
+    font-weight: 600; 
+    padding-bottom: 12px;
+}
+.table {
+    border-top: 2px solid #3372FF;
+}
+.table-row {
+    height: 44px;
+    display: flex;
+    align-items: stretch;
+}
+.table-cells {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tc-checkbox { width: 44px; }
+.tc-number { width: 60px; }
+.tc-etc { width: calc((100% - 44px - 60px) / 4); }
+.table-header { font-weight: 600; border-bottom: 1px solid #454f57; }
+.table-data { border-bottom: 1px solid #454f57; max-height: 240px; overflow-y: auto; }
+.table-data-list { border-bottom: 1px solid #E3E9ED; }
+
+
+/* ==== Footer ===== */
+footer { 
+    height: 160px;
+    width: 100%; 
+    padding: 0 120px; 
+    background-color: #0F1B33;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+footer * {
+    color: #8895A0 !important;
+}
+footer .copyright { margin-top: 20px; }

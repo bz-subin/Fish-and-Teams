@@ -1,14 +1,301 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <!-- ===== Settings ===== -->
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>팀원 관리</title>
-</head>
-<body>
-    <h1>팀원 관리 시스템</h1>
-    <div id="app"></div>
 
-    <script type="module" src="src/view/crud.js"></script>
+    <!-- ===== Site Information ===== -->
+    <title>Fish and Teams</title>
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- ===== Open Graph ===== -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+
+    <!-- ===== Favicon ===== -->
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+
+    <!-- ===== CSS ===== -->
+    <!-- common -->
+    <link rel="stylesheet" href="/css/reset.css">
+    <!-- common -->
+    <link rel="stylesheet" href="/css/common.css">
+    <!-- theme -->
+    <link rel="stylesheet" href="/css/theme.css">
+    <!-- mediaquery -->
+    <link rel="stylesheet" href="/css/mediaquery.css">
+</head>
+<body class="ocean">
+    <!-- ===== Header ===== -->
+    <header>
+        <!-- Logo -->
+        <h1 class="logo">
+            <a href="index.html">
+                <img src="/img/Signature.svg" alt="">
+            </a>
+        </h1>
+
+        <!-- == Buttons == -->
+        <ul class="header-btn-area">
+            <li>
+                <button class="header-btn">사용법</button>
+            </li>
+            <li class="select-theme">
+                <button type="button" class="header-btn theme-toggle-btn">
+                    Theme <span class="arrow"></span>
+                </button>
+                <ul class="theme-list">
+                    <li><button type="button">Light</button></li>
+                    <li><button type="button">Dark</button></li>
+                    <li><button type="button">Ocean</button></li>
+                </ul>        
+            </li>
+        </ul>
+    </header>
+
+    <!-- ===== Main ===== -->
+
+    <div id="app"></div>
+    <main>
+        <!-- === Add Banner Left === -->
+        <div class="add-banner-left"></div>
+
+        <!-- === Main Container === -->
+        <div class="container">
+            <!-- === Members === -->
+            <section class="section members">
+                <h2>Members</h2>
+                <div class="table">
+                    <ul class="table-row table-header">
+                        <li class="table-cells tc-checkbox center">
+                            <input type="checkbox">
+                        </li>
+                        <li class="table-cells tc-number">
+                            <p>No</p>
+                        </li>
+                        <li class="table-cells tc-etc">
+                            <p>이름</p>
+                        </li>
+                        <li class="table-cells tc-etc">
+                            <p>나이</p>
+                        </li>
+                        <li class="table-cells tc-etc">
+                            <p>성별</p>
+                        </li>
+                        <li class="table-cells tc-etc">
+                            <p>능력치</p>
+                        </li>
+                    </ul>
+                    <ul class="table-data scrollbar ">
+                        <li class="table-data-list">
+                            <ul class="table-row">
+                                <li class="table-cells tc-checkbox center">
+                                    <input type="checkbox">
+                                </li>
+                                <li class="table-cells tc-number">
+                                    <p>No</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>이름</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>나이</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>성별</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>능력치</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="table-data-list">
+                            <ul class="table-row">
+                                <li class="table-cells tc-checkbox center">
+                                    <input type="checkbox">
+                                </li>
+                                <li class="table-cells tc-number">
+                                    <p>No</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>이름</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>나이</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>성별</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>능력치</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="table-data-list">
+                            <ul class="table-row">
+                                <li class="table-cells tc-checkbox center">
+                                    <input type="checkbox">
+                                </li>
+                                <li class="table-cells tc-number">
+                                    <p>No</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>이름</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>나이</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>성별</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>능력치</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="table-data-list">
+                            <ul class="table-row">
+                                <li class="table-cells tc-checkbox center">
+                                    <input type="checkbox">
+                                </li>
+                                <li class="table-cells tc-number">
+                                    <p>No</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>이름</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>나이</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>성별</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>능력치</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="table-data-list">
+                            <ul class="table-row">
+                                <li class="table-cells tc-checkbox center">
+                                    <input type="checkbox">
+                                </li>
+                                <li class="table-cells tc-number">
+                                    <p>No</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>이름</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>나이</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>성별</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>능력치</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="table-data-list">
+                            <ul class="table-row">
+                                <li class="table-cells tc-checkbox center">
+                                    <input type="checkbox">
+                                </li>
+                                <li class="table-cells tc-number">
+                                    <p>No</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>이름</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>나이</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>성별</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>능력치</p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="table-data-list">
+                            <ul class="table-row">
+                                <li class="table-cells tc-checkbox center">
+                                    <input type="checkbox">
+                                </li>
+                                <li class="table-cells tc-number">
+                                    <p>No</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>이름</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>나이</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>성별</p>
+                                </li>
+                                <li class="table-cells tc-etc">
+                                    <p>능력치</p>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section class="section">
+                <div>
+                    <p>팀 수</p>
+                    <input type="number">
+                </div>
+                <div>
+                    <p>밸런스</p>
+                    <ul>
+                        <li>
+                            <input type="checkbox">
+                            <p>나이</p>
+                        </li>
+                        <li>
+                            <input type="checkbox">
+                            <p>성별</p>
+                        </li>
+                        <li>
+                            <input type="checkbox">
+                            <p>능력치</p>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+        
+        <!-- === Add Banner Right === -->
+        <div class="add-banner-right"></div>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer>
+        <div>
+            <ul>
+                <li><span>Team Name : </span>어우C</li>
+                <li><span>Serviece Name : </span>Fish and Teams</li>
+            </ul>
+            <p class="copyright">Copyright Ⓒ 어우C. 2026. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+
+    <!-- ===== JS ===== -->
+    <script type="module" src="src/view/crud.js" defer></script>
 </body>
 </html>

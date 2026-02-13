@@ -1,0 +1,27 @@
+/* ===== Light ===== */
+.light {
+    background-color: #FFFFFF;
+}
+.light * {
+    color: #333333; 
+}
+
+
+/* ===== Dark ===== */
+.dark { 
+    background-color: #333333; 
+}
+.dark * { 
+    color: #FFFFFF; 
+}
+
+/* ===== Ocean ===== */
+.ocean {
+    background-image: url("/img/ocean_bg01.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.ocean * {
+    color: #0E1B33;
+}
