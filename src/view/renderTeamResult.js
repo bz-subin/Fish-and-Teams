@@ -96,6 +96,20 @@ const renderTeamResults = (teams) => {
     teamSexRatio.female = 0;
       teamSexRatio.male = 0
   });
+
+  // ----------------------------------------------------
+  // [NEW] ★ 낚시 게임 자동 시작 연결! ★
+  // index.html에 만들어둔 전역 함수(window.startFishingGame)를 호출합니다.
+  // ----------------------------------------------------
+  if (typeof window.startFishingGame === "function") {
+    // 약간의 딜레이를 주어 사용자가 "배정 완료" 느낌을 받게 함
+    setTimeout(() => {
+        if(confirm("팀 배정이 완료되었습니다! 🎣 낚시 게임으로 결과를 확인하시겠습니까?")) {
+            window.startFishingGame(teams);
+        }
+    }, 100);
+  }
+
 };
 
 export default renderTeamResults;
