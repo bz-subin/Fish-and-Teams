@@ -1,0 +1,195 @@
+/* [1] 기본 레이아웃 */
+body {
+    font-family: 'Pretendard', sans-serif;
+    text-align: center;
+    padding: 20px;
+    background-color: #f0f4f8;
+    margin: 0;
+    overflow-y: auto;
+}
+
+#app {
+    margin-bottom: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    padding: 10px;
+}
+
+/* [2] 팀 설정 박스 */
+#detail-config-box {
+    border: 3px solid #333;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 20px auto;
+    max-width: 500px;
+    background: white;
+}
+
+.config-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+/* [3] 미니게임 오버레이 (핵심 수정) */
+#minigame-overlay {
+    display: none;
+    position: fixed !important;
+    /* 화면에 박제 */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10000;
+    background: white;
+}
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.game-screen {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: linear-gradient(to bottom, #C7E0FD 0%, #C7E0FD 35%, #01579b 55%, #01579b 100%);
+    overflow: hidden;
+}
+
+
+/* [4] 물결 레이어 시스템 - 바다 위치 하향 조정 */
+.wave-background,
+.wave-foreground {
+    position: absolute;
+    top: 250%;
+    /* 이 수치가 커질수록 바다가 아래로 내려갑니다 */
+    width: 100%;
+    height: 20%;
+}
+
+.wave-background {
+    z-index: 50;
+}
+
+.wave-foreground {
+    z-index: 200;
+    pointer-events: none;
+}
+
+.wave-canvas {
+    position: absolute;
+    width: 400vw;
+    height: 400vw;
+    left: -150vw;
+    border-radius: 43%;
+    transform-origin: 50% 50%;
+    animation: wave-rotate 20s infinite linear;
+}
+
+.wave-canvas.-one {
+    background: #4fc3f7;
+    opacity: 0.6;
+    top: 0px;
+}
+
+.wave-canvas.-two {
+    background: #0670d3;
+    opacity: 0.6;
+    top: 10px;
+    animation-direction: reverse;
+}
+
+.wave-canvas.-three {
+    background: #012d50;
+    opacity: 0.4;
+    top: 20px;
+}
+
+/* [5] 배 위치 조정 - 바다 수평선에 맞춤 */
+.boat-container {
+    position: absolute;
+    top: 250%;
+    /* 위 wave의 top 수치와 반드시 일치시켜야 배가 물 위에 뜹니다 */
+    left: 50%;
+    transform: translate(-50%, -90%);
+    width: 480px;
+    height: 320px;
+    z-index: 150;
+}
+
+.boat-container {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -90%);
+    width: 480px;
+    height: 320px;
+    z-index: 150;
+}
+
+.fishing-line {
+    position: absolute;
+    width: 4px;
+    background: #fff;
+    height: 150px;
+    transition: height 0.6s ease-in-out;
+    z-index: 60;
+}
+
+.fishing-line.line-style-0 {
+    top: -30px !important;
+    right: -80px !important;
+}
+
+.fishing-line.line-style-1 {
+    top: 25px !important;
+    right: -78px !important;
+}
+
+.fish {
+    position: absolute;
+    bottom: -35px;
+    left: -20px;
+    display: none;
+    font-size: 2.5rem;
+    animation: struggle 0.2s infinite;
+}
+
+#game-result-overlay {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    z-index: 10001;
+}
+
+@keyframes wave-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes struggle {
+    0% {
+        transform: rotate(-10deg);
+    }
+
+    100% {
+        transform: rotate(10deg);
+    }
+}
