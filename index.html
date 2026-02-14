@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="style.css" />
     <script type="module" src="src/view/crud.js"></script>
+    <script src="kako.js"></script>
     <script src="game.js"></script>
 
     </head>
@@ -88,8 +89,12 @@
                 
                 <div id="game-result-overlay">
                     <h3>🎣 만선 완료!</h3>
-                    <button type="button" onclick="closeGameAndShowResult()">
+                    <button type="button" class="game-over-btn" onclick="closeGameAndShowResult()">
                         결과창 보기
+                    </button>
+                    <button type="button" class="kakao-share-btn" onclick="shareToKakao()">
+                            <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카톡" width="18">
+                            카톡 공유
                     </button>
                 </div>
             </div>
