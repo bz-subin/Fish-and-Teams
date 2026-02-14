@@ -90,40 +90,26 @@
     display: block;
 }
 
-/* [공통] 어부 영역 기본 설정*/
-#minigame-overlay .fisherman {
-    position: absolute;
-    left: 50%;
-    z-index: -1; /* 앞으로 나오게 양수 추천! */
-}
+        /* 어부1 */
+        #minigame-overlay .fish-style-0 {
+            bottom: 90px;
+            width: 250px !important;
+            transform: translate(calc(-50% + 180px), 0px);
+        }
 
-/* [공통] 어부 영역 안의 이미지 */
-#minigame-overlay .fisherman img {
-    width: 100% !important;
-    height: auto !important;
-    display: block;
-}
+        /* 어부2 */
+        #minigame-overlay .fish-style-1 {
+            bottom: 90px;     
+            width: 280px !important;
+            transform: translate(calc(-50% + 160px), 0px);
+        }
 
-/* 어부1 */
-#minigame-overlay .fish-style-0 {
-    bottom: 90px;
-    width: 250px !important;
-    transform: translate(calc(-50% + 180px), 0px);
-}
-
-/* 어부2 */
-#minigame-overlay .fish-style-1 {
-    bottom: 90px;     
-    width: 280px !important;
-    transform: translate(calc(-50% + 160px), 0px);
-}
-
-/* 어부3 */
-#minigame-overlay .fish-style-2 {
-    bottom: 90px;     
-    width: 280px !important;
-    transform: translate(calc(-50% + 160px), 0px);
-}
+        /* 어부3 */
+        #minigame-overlay .fish-style-2 {
+            bottom: 90px;     
+            width: 280px !important;
+            transform: translate(calc(-50% + 160px), 0px);
+        }
 
 
 
@@ -137,29 +123,33 @@
     z-index: 60;
 }
 
+        /* 어부1 */
+        #minigame-overlay .line-style-0 {
+            right: -65px;
+            top: 5px;
+        }
 
-/* 어부1 */
-#minigame-overlay .line-style-0 {
-    right: -65px;
-    top: 5px;
-}
+        /* 어부2 */
+        #minigame-overlay .line-style-1 {
+            right: -60px;  
+            top: 35px;  
+        }
 
-/* 어부2 */
-#minigame-overlay .line-style-1 {
-    right: -60px;  
-    top: 35px;  
-}
-
-/* 어부3 */
-#minigame-overlay .line-style-2 {
-    right: -60px;  /* 1번보다 더 오른쪽이라면 숫자를 키우세요 */
-    top: 40px;   /* 1번보다 더 위쪽이라면 마이너스 값을 주세요 */
-}
+        /* 어부3 */
+        #minigame-overlay .line-style-2 {
+            right: -60px;  /* 1번보다 더 오른쪽이라면 숫자를 키우세요 */
+            top: 40px;   /* 1번보다 더 위쪽이라면 마이너스 값을 주세요 */
+        }
 
 
 #minigame-overlay .fish {
-    position: absolute; bottom: -35px; left: -20px; display: none;
-    font-size: 2.5rem; animation: struggle 0.2s infinite;
+    position: absolute; 
+    bottom: -35px; 
+    left: -20px; 
+    display: none;
+    font-size: 2.5rem;
+    animation: struggle 0.2s infinite;
+    z-index: 71;
 }
 
 /* 기록창 */
@@ -171,6 +161,36 @@
     padding: 20px; min-width: 250px; min-height: 150px;
     margin-top: 15px; font-size: 1.5rem; border-radius: 10px;
 }
+
+
+/* --- 새로 추가할 내용 --- */
+
+/* 결과 확인창 스타일 */
+#game-result-overlay {
+    display: none; 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5000; /* 의도하신 레이어들보다 확실히 위로 설정 */
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* 낚싯줄 끝에 달릴 찌 */
+#minigame-overlay .float {
+    position: absolute;
+    bottom: -15px; 
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.2rem;
+    z-index: 70;
+}
+
+
 
 /* 애니메이션 */
 @keyframes wave-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
