@@ -62,6 +62,7 @@ function renderGameScreens() {
                 <div class="wave-foreground">
 
                     <div class="wave-canvas -two"></div>
+                    <div class="wave-canvas -three"></div>
 </div>
 
             </div>
