@@ -1,137 +1,83 @@
 <!doctype html>
 <html lang="ko">
-  <head>
+    <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fish and Teams</title>
 
+
+    <!--import 같은 느낌으로 외부 파일을 불러오는 방식-->
+    <!--(스타일_css)Swiper_CSS-->
+	<!--(기능_js)Swiper_js-->
+	<!--(기능_js)카카오톡 개발자 도구(SDK)-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.0/kakao.min.js" integrity="sha384-lLe9t9o9V9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9z" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="css/reset.css" />
+    <!-- 만든 css 파일을 이음. import 와 동일-->
+    <link rel="stylesheet" href="css/reset.css" /> 
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="style.css" />
 
-    <style>
-        /* [미니게임 오버레이 - 중요: fixed로 화면 전체 고정] */
-        #minigame-overlay {
-            display: none; /* 평소엔 숨김 */
-            position: fixed !important;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 10000;
-            background: white;
-        }
-        .swiper { width: 100%; height: 100%; }
-        .game-screen {
-            width: 100%; height: 100%; position: relative;
-            background: linear-gradient(to bottom, #C7E0FD 0%, #C7E0FD 35%, #01579b 55%, #01579b 100%);
-            overflow: hidden;
-        }
-        /* ... (상대방의 애니메이션 CSS들) ... */
-        .wave-background, .wave-foreground { position: absolute; top: 45%; width: 100%; height: 55%; }
-        .wave-background { z-index: 50; }
-        .wave-foreground { z-index: 200; pointer-events: none; }
-        .wave-canvas {
-            position: absolute; width: 400vw; height: 400vw; left: -150vw;
-            border-radius: 43%; animation: wave-rotate 20s infinite linear;
-        }
-        .wave-canvas.-one { background: #4fc3f7; opacity: 0.6; animation-duration: 15s; top: 10px; }
-        .wave-canvas.-two { background: #0670d3; opacity: 0.6; animation-duration: 22s; animation-direction: reverse; top: 20px; }
-        .wave-canvas.-three { background: #012d50; opacity: 0.4; animation-duration: 30s; top: 30px; }
-        
-        .boat-container {
-            position: absolute; top: 45%; left: 50%; transform: translate(-50%, -90%);
-            width: 480px; height: 320px; z-index: 150;
-        }
-        .boat {
-            position: absolute; bottom: 0; width: 100%; height: 140px;
-            background-color: #894F1C; border: 4px solid #5d3513;
-            clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
-        }
-        .fisherman {
-            position: absolute; bottom: 135px; left: 50%;
-            transform: translate(calc(-50% + 180px), 40px);
-            width: 280px; z-index: -1;
-        }
-        .fishing-line {
-            position: absolute; width: 4px; background: #fff; height: 150px;
-            transition: height 0.6s ease-in-out; z-index: 60;
-        }
-        .fishing-line.line-style-0 { top: -30px !important; right: -80px !important; }
-        .fishing-line.line-style-1 { top: 25px !important; right: -78px !important; }
-        .fish {
-            position: absolute; bottom: -35px; left: -20px; display: none;
-            font-size: 2.5rem; animation: struggle 0.2s infinite;
-        }
-        .team-info {
-            position: absolute; top: 30px; left: 40px; text-align: left; z-index: 300;
-        }
-        .record-box {
-            background: rgba(255, 255, 255, 0.9); border: 4px solid #333;
-            padding: 20px; min-width: 250px; min-height: 150px;
-            margin-top: 15px; font-size: 1.5rem; border-radius: 10px;
-        }
-        #game-result-overlay {
-            display: none; position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); width: 280px; background: white;
-            padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); z-index: 10001;
-        }
-        @keyframes wave-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes struggle { 0% { transform: rotate(-10deg); } 100% { transform: rotate(10deg); } }
-    </style>
-  </head>
-  <body class="ocean">
+    </head>
+    
+    
+    <!--a href : 클릭하면 이동-->
+    <body class="ocean">
     <header>
-       <h1 class="logo"><a href="index.html"><img src="/img/Signature.svg" alt="" /></a></h1>
+        <h1 class="logo"><a href="index.html"><img src="/img/Signature.svg" alt="" /></a></h1>
     </header>
 
     <main>
-      <div class="add-banner-left"></div>
-      <div class="container">
-        <section class="members">
-          <h2>Members</h2>
-          <div class="manage-buttons" style="margin-bottom: 10px; display: flex; gap: 10px; justify-content: flex-end;">
-             <button onclick="addMember()" class="header-btn" style="background:#4a90e2; color:white;">추가</button>
-             <button onclick="modifyMember()" class="header-btn" style="background:#50c878; color:white;">수정</button>
-             <button onclick="delMember()" class="header-btn" style="background:#ff6b6b; color:white;">삭제</button>
-          </div>
-          <div class="table">
-            <ul class="table-row table-header">
-              <li class="table-cells tc-checkbox center"><input type="checkbox" onclick="sumCheckbox(this)" /></li>
-              <li class="table-cells tc-number">No</li>
-              <li class="table-cells tc-etc">이름</li>
-              <li class="table-cells tc-etc">나이</li>
-              <li class="table-cells tc-etc">성별</li>
-              <li class="table-cells tc-etc">능력치</li>
-            </ul>
-            <ul class="table-data scrollbar"></ul>
-          </div>
-        </section>
+        <div class="add-banner-left"></div> <!--왼쪽 여백_members 왼쪽-->
+        <div class="container">
+            <section class="members">
+                <h2>Members</h2>
+                <div class="manage-buttons" style="margin-bottom: 10px; display: flex; gap: 10px; justify-content: flex-end;">
+                    <button onclick="addMember()" class="header-btn" style="background:#4a90e2; color:white;">추가</button>
+                    <button onclick="modifyMember()" class="header-btn" style="background:#50c878; color:white;">수정</button>
+                    <button onclick="delMember()" class="header-btn" style="background:#ff6b6b; color:white;">삭제</button>
+                </div>
 
-        <section>
-          <div>
-            <p>팀 수</p>
-            <input type="number" id="input-team-count" value="2" min="2" />
-          </div>
-          <div>
-            <p>밸런스</p>
-            <ul>
-              <li><input type="checkbox" id="chk-age" /><p>나이</p></li>
-              <li><input type="checkbox" id="chk-gender" checked /><p>성별</p></li>
-              <li><input type="checkbox" id="chk-ability" checked /><p>능력치</p></li>
-            </ul>
-          </div>
-          <div style="margin-top: 20px; display: flex; gap: 10px">
-            <button id="btn-assign-teams" class="header-btn" style="background: #007bff; color: white">⚖️ 조건부 배정</button>
-            <button id="btn-random-teams" class="header-btn" style="background: #28a745; color: white">🎲 랜덤 배정</button>
-          </div>
-        </section>
+                <!--추가 누를 경우 뜨는 창-->
+                <div class="table">
+                    <ul class="table-row table-header">
+                    <li class="table-cells tc-checkbox center"><input type="checkbox" onclick="sumCheckbox(this)" /></li>
+                    <li class="table-cells tc-number">No</li>
+                    <li class="table-cells tc-etc">이름</li>
+                    <li class="table-cells tc-etc">나이</li>
+                    <li class="table-cells tc-etc">성별</li>
+                    <li class="table-cells tc-etc">능력치</li>
+                    </ul>
+                    <ul class="table-data scrollbar"></ul>
+                <!--자바스크립트 실행 시 사용자가 추가한 멤버 정보들이 태그 안으로 li형태가 되어 들어옴.-->
+                </div>
+            </section>
+
+            <section>
+                <div>
+                    <p>팀 수</p>
+                    <input type="number" id="input-team-count" value="2" min="2" />  <!--value="기본값" min="최소값"-->
+                </div>
+                <div>
+                    <p>밸런스</p>
+                    <ul>
+                    <li><input type="checkbox" id="chk-age" /><p>나이</p></li>
+                    <li><input type="checkbox" id="chk-gender" checked /><p>성별</p></li>
+                    <li><input type="checkbox" id="chk-ability" checked /><p>능력치</p></li>
+                    </ul>
+                </div>
+                <div style="margin-top: 20px; display: flex; gap: 10px">
+                    <button id="btn-assign-teams" class="header-btn" style="background: #007bff; color: white">⚖️ 조건부 배정</button>
+                    <button id="btn-random-teams" class="header-btn" style="background: #28a745; color: white">🎲 랜덤 배정</button>
+                </div>
+            </section>
 
         <div id="team-result-area" style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px"></div>
-      </div>
-      <div class="add-banner-right"></div>
+        </div>
+        
+        <div class="add-banner-right"></div> <!--오른쪽 여백_members 오른쪽-->
     </main>
 
     <div id="minigame-overlay">
@@ -148,7 +94,7 @@
     </div>
 
     <footer>
-      </footer>
+    </footer>
 
     <script type="module" src="src/view/crud.js"></script>
 
@@ -277,5 +223,5 @@
             alert("결과 화면을 확인하세요!");
         }
     </script>
-  </body>
+    </body>
 </html>
