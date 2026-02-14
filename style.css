@@ -73,16 +73,89 @@
     clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
 }
 
+/* 1. 어부를 담는 박스 설정 */
 #minigame-overlay .fisherman {
-    position: absolute; bottom: 135px; left: 50%;
-    transform: translate(calc(-50% + 180px), 40px);
-    width: 280px; z-index: -1;
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translate(calc(-50% + 180px), 0px); 
+    width: 250px !important; /* !important를 붙여서 다른 설정을 무시하게 함 */
+    z-index: -1; 
 }
 
-#minigame-overlay .fishing-line {
-    position: absolute; width: 4px; background: #fff; height: 150px;
-    transition: height 0.6s ease-in-out; z-index: 60;
+/* 2. [가장 중요] 박스 안의 이미지가 박스 크기를 따라가게 함 */
+#minigame-overlay .fisherman img {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
 }
+
+/* [공통] 어부 영역 기본 설정*/
+#minigame-overlay .fisherman {
+    position: absolute;
+    left: 50%;
+    z-index: -1; /* 앞으로 나오게 양수 추천! */
+}
+
+/* [공통] 어부 영역 안의 이미지 */
+#minigame-overlay .fisherman img {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+}
+
+/* 어부1 */
+#minigame-overlay .fish-style-0 {
+    bottom: 90px;
+    width: 250px !important;
+    transform: translate(calc(-50% + 180px), 0px);
+}
+
+/* 어부2 */
+#minigame-overlay .fish-style-1 {
+    bottom: 90px;     
+    width: 280px !important;
+    transform: translate(calc(-50% + 160px), 0px);
+}
+
+/* 어부3 */
+#minigame-overlay .fish-style-2 {
+    bottom: 90px;     
+    width: 280px !important;
+    transform: translate(calc(-50% + 160px), 0px);
+}
+
+
+
+/*공통 낚싯줄*/
+#minigame-overlay .fishing-line {
+    position: absolute; 
+    width: 3px;
+    background: #fff; 
+    height: 150px;
+    transition: height 0.6s ease-in-out;
+    z-index: 60;
+}
+
+
+/* 어부1 */
+#minigame-overlay .line-style-0 {
+    right: -65px;
+    top: 5px;
+}
+
+/* 어부2 */
+#minigame-overlay .line-style-1 {
+    right: -60px;  
+    top: 35px;  
+}
+
+/* 어부3 */
+#minigame-overlay .line-style-2 {
+    right: -60px;  /* 1번보다 더 오른쪽이라면 숫자를 키우세요 */
+    top: 40px;   /* 1번보다 더 위쪽이라면 마이너스 값을 주세요 */
+}
+
 
 #minigame-overlay .fish {
     position: absolute; bottom: -35px; left: -20px; display: none;
