@@ -196,5 +196,6 @@
 /* 애니메이션 */
 @keyframes wave-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes struggle { 0% { transform: rotate(-10deg); } 100% { transform: rotate(10deg); } }
-@keyframes boat-physics-bobbing { 0%, 100% { transform: translate(-50%, -86%) rotate(-1.2deg);}
-    50% { transform: translate(-50%, -104%) rotate(2.5deg);} }
+@keyframes boat-physics-bobbing { 0%, 
+    100% { transform: translate(-50%, -88%) rotate(-0.8deg);}
+    50%  { transform: translate(-50%, -96%) rotate(1.5deg);} }
