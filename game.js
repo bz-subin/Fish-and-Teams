@@ -48,7 +48,8 @@ function renderGameScreens() {
                     <h2>${team.teamName}</h2>
                     <div class="record-box" id="record-${idx}">대기 중...</div>
                 </div>
-                <div class="wave-background"><div class="wave-canvas -three"></div></div>
+                <div class="wave-background"><div class="wave-canvas -one"></div></div>
+                
                 <div class="boat-container">                    
                     <div class="fisherman fish-style-${idx % 3}">
                         <img src="images/fish_man${imgNumber}.svg" alt="어부${imgNumber}">
@@ -60,9 +61,10 @@ function renderGameScreens() {
                     </div>
                 </div>
                 <div class="wave-foreground">
-                    <div class="wave-canvas -one"></div>
+
                     <div class="wave-canvas -two"></div>
-                </div>
+</div>
+
             </div>
         </div>`;
     }).join('');
