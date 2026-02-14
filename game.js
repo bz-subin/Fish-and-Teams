@@ -68,6 +68,7 @@ function renderGameScreens() {
     }).join('');
 }
 
+
 /* [핵심 로직] 낚시 프로세스 (애니메이션 포함) */
 function processFishing() {
     if (gameData.isFishing) return;
@@ -75,15 +76,17 @@ function processFishing() {
 
     const idx = gameData.currentSwiper.realIndex;
     const activeSlide = gameData.currentSwiper.slides[gameData.currentSwiper.activeIndex];
-    const line = activeSlide.querySelector(`.fishing-line`);
-    const fish = activeSlide.querySelector(`.fish`);
-    const record = document.getElementById(`record-${idx}`);
+    const line = activeSlide.querySelector('.fishing-line');
+    const fish = activeSlide.querySelector('.fish');
+    const float = activeSlide.querySelector('.float'); 
+    const record = activeSlide.querySelector('.record-box');
 
     /* 1. 찌 던지기 */
     line.style.height = "420px";
 
     setTimeout(() => {
         /* 2. 히트! 물고기 등장 및 낚아채기 */
+        if (float) float.style.display = 'none'; 
         fish.style.display = 'block';
         line.style.height = "130px";
 
@@ -100,21 +103,27 @@ function processFishing() {
             }
 
             setTimeout(() => {
-                /* 4. 초기화 및 다음 팀 전환 */
+                /* 4. 초기화 및 즉시 화면 전환 */
                 fish.style.display = 'none';
-                line.style.height = "150px";
-                gameData.isFishing = false;
+                if (float) float.style.display = 'block'; 
+                line.style.height = "150px"; 
 
+                // [수정] 화면 전환을 밖으로 빼서 즉시 실행 (속도 해결)
                 if (gameData.totalFished >= gameData.totalMembers) {
                     document.getElementById('game-result-overlay').style.display = 'block';
                 } else {
                     gameData.currentSwiper.slideNext();
                 }
-            }, 800);
-        }, 700);
-    }, 800);
-}
 
+                // [수정] 방어막 해제만 0.6초 뒤에 실행 (드드득 방지)
+                setTimeout(() => {
+                    gameData.isFishing = false; 
+                }, 600); 
+
+            }, 800); // 3번 데이터 처리 후 대기 시간
+        }, 700); // 2번 히트 후 대기 시간
+    }, 800); // 1번 찌 던진 후 대기 시간
+}
 /* [이벤트] 스페이스바 입력 감지 */
 window.addEventListener('keydown', (e) => {
     const isOverlayVisible = document.getElementById('minigame-overlay').style.display === 'block';
@@ -123,6 +132,19 @@ window.addEventListener('keydown', (e) => {
         processFishing();
     }
 });
+
+window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+        e.preventDefault(); // 페이지 스크롤 방지
+        
+        // 낚시 중이면 아예 함수를 실행하지 않고 리턴!
+        if (gameData.isFishing) return; 
+        
+        processFishing();
+    }
+});
+
+
 
 /* [종료] 게임 닫기 */
 window.closeGameAndShowResult = function() {
