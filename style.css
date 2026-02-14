@@ -11,8 +11,12 @@
     width: 100vw;
     height: 100vh;
     z-index: 10000;
-    background: white;
+    background-color: white; 
 }
+
+
+
+
 
 #minigame-overlay .swiper {
     width: 100%;
@@ -54,13 +58,13 @@
     background-image: url("images/sea_wave.svg");
     
     /* 1. 박스의 실제 키를 부모(.wave-background) 높이만큼 꽉 채우기 */
-    height: 100% !important; 
+    height: 110% !important; 
     
     /* 2. 이미지를 그 박스 높이에 맞춰서 100% 늘리기 */
     background-size: 300px 100%; 
     
     /* 3. 위쪽 경계선이 잘린다면 마이너스 값을 줘서 위로 올리기 */
-    top: 80px; 
+    top: 135px; 
     
     position: absolute;
     width: 200%;
@@ -70,11 +74,11 @@
 }
 #minigame-overlay .wave-canvas.-two { 
     background-image: url("images/sea_wave.svg");
-    height: 100% !important; 
+    height: 110% !important; 
     background-size: 300px 100%; 
     
     /* 1. 위치: -one(80px)보다 조금 더 위로 올림 */
-    top: 90px; 
+    top: 160px; 
     
     position: absolute;
     width: 200%;
