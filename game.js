@@ -21,7 +21,6 @@ window.startFishingGame = function(calculatedTeams) {
     renderGameScreens();
     
     document.getElementById('minigame-overlay').style.display = 'block';
-
     /* Swiper 초기화 (슬라이드 전환 금지) */
     if (gameData.currentSwiper) gameData.currentSwiper.destroy();
     gameData.currentSwiper = new Swiper(".mySwiper", {
