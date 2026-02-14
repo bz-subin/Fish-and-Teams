@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="style.css" />
+    <script type="module" src="src/view/crud.js"></script>
+    <script src="game.js"></script>
 
     </head>
     
@@ -96,132 +98,5 @@
     <footer>
     </footer>
 
-    <script type="module" src="src/view/crud.js"></script>
-
-    <script>
-        // 전역 변수로 게임 데이터 관리
-        let gameData = { teams: [], currentSwiper: null, isFishing: false, totalFished: 0, totalMembers: 0 };
-
-        // [외부 호출용] 낚시 게임 시작 함수
-        // calculatedTeams: [[멤버1, 멤버2], [멤버3, 멤버4]] 형태의 2차원 배열
-        window.startFishingGame = function(calculatedTeams) {
-            // 2차원 배열을 게임에 맞는 객체 배열로 변환
-            gameData.teams = calculatedTeams.map((members, idx) => ({
-                teamName: `Team ${idx + 1}`,
-                members: [...members] // 복사
-            }));
-            
-            gameData.totalMembers = calculatedTeams.flat().length;
-            gameData.totalFished = 0;
-            gameData.isFishing = false;
-
-            renderGameScreens();
-            
-            // 오버레이 보이기
-            document.getElementById('minigame-overlay').style.display = 'block';
-
-            // Swiper 초기화
-            if (gameData.currentSwiper) gameData.currentSwiper.destroy();
-            gameData.currentSwiper = new Swiper(".mySwiper", {
-                allowTouchMove: false,
-                loop: true,
-                observer: true,
-                observeParents: true
-            });
-        };
-
-        function renderGameScreens() {
-            const wrapper = document.getElementById('game-screens-wrapper');
-            wrapper.innerHTML = gameData.teams.map((team, idx) => {
-                const fishermanImg = (idx % 2 === 0) ? '1' : '2'; // 이미지 교차
-                // 이미지 경로 주의 (images/fishing_1.svg 등 파일이 있어야 함)
-                // 없다면 대체 이미지 사용
-                return `
-                <div class="swiper-slide">
-                    <div class="game-screen">
-                        <div class="team-info">
-                            <h2>${team.teamName}</h2>
-                            <div class="record-box" id="record-${idx}">대기 중...</div>
-                        </div>
-                        <div class="wave-background"><div class="wave-canvas -three"></div></div>
-                        <div class="boat-container">
-                            <div class="boat"></div>
-                            <div class="fishing-line line-style-${idx % 2}" id="line-${idx}">
-                                <div class="fish">🐟</div>
-                            </div>
-                        </div>
-                        <div class="wave-foreground">
-                            <div class="wave-canvas -one"></div>
-                            <div class="wave-canvas -two"></div>
-                        </div>
-                    </div>
-                </div>`;
-            }).join('');
-        }
-
-        function processFishing() {
-            if (gameData.isFishing) return;
-            gameData.isFishing = true;
-
-            const idx = gameData.currentSwiper.realIndex;
-            const activeSlide = gameData.currentSwiper.slides[gameData.currentSwiper.activeIndex];
-            const line = activeSlide.querySelector(`.fishing-line`);
-            const fish = activeSlide.querySelector(`.fish`);
-            const record = document.getElementById(`record-${idx}`);
-
-            // 낚싯줄 내리기
-            line.style.height = "420px";
-
-            setTimeout(() => {
-                // 고기 물기
-                fish.style.display = 'block';
-                line.style.height = "130px"; // 끌어올리기
-
-                setTimeout(() => {
-                    // 데이터 처리
-                    const team = gameData.teams[idx];
-                    if (team.members.length > 0) {
-                        const member = team.members.shift();
-                        if (record.innerHTML === "대기 중...") record.innerHTML = "";
-                        const item = document.createElement('div');
-                        item.innerHTML = `&nbsp;🎣 <b>${member.name}</b> 성공!`;
-                        record.prepend(item);
-                        gameData.totalFished++;
-                    } else {
-                        // 이미 다 낚았으면
-                        alert("이 팀은 이미 만선입니다!");
-                    }
-
-                    setTimeout(() => {
-                        fish.style.display = 'none';
-                        line.style.height = "150px"; // 원위치
-                        gameData.isFishing = false;
-
-                        // 게임 종료 체크
-                        if (gameData.totalFished >= gameData.totalMembers) {
-                            document.getElementById('game-result-overlay').style.display = 'block';
-                        } else {
-                            // 다음 팀으로 이동
-                            gameData.currentSwiper.slideNext();
-                        }
-                    }, 800);
-                }, 700);
-            }, 800);
-        }
-
-        window.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' && document.getElementById('minigame-overlay').style.display === 'block' && !gameData.isFishing) {
-                e.preventDefault();
-                processFishing();
-            }
-        });
-
-        window.closeGameAndShowResult = function() {
-            document.getElementById('minigame-overlay').style.display = 'none';
-            document.getElementById('game-result-overlay').style.display = 'none';
-            // 결과창은 이미 내 로직(renderTeamResult)에 의해 그려져 있으므로 그냥 닫으면 됨
-            alert("결과 화면을 확인하세요!");
-        }
-    </script>
     </body>
 </html>
