@@ -1,4 +1,4 @@
-/*기본 레이아웃_게임이 시작되는 순간  기존 화면을 싹 가림.*/
+/* <overlay> 기본 레이아웃_게임이 시작되는 순간  기존 화면을 싹 가림.*/
 #minigame-overlay {
     font-family: 'Pretendard', sans-serif;
     text-align: center; 
@@ -14,15 +14,15 @@
     background-color: white; 
 }
 
-/*swiper_화면 넘기는 기능 쓸거임. */
+/*<swiper> 화면 넘기는 기능 쓸거임. */
 /*#minigame-overlay의 width, height를 그대로 가져오겠다(부모, 자식 관계)*/
 #minigame-overlay .swiper {
     width: 100%;
     height: 100%;
 }
 
+/*<game-screen> swiper용 화면*/
 /*relative_매우중요 : 요소 배치 시 기준점이 됨*/
-/*swiper용 화면*/
 #minigame-overlay .game-screen {
     position: relative;
     width: 100%;
@@ -31,8 +31,7 @@
     overflow: hidden; /*액자 역할. 화면 밖으로 튀어나온건 숨겨줌*/
 }
 
-
-/*파도 - 이미지 한 장으로 무한루프 고*/
+/*<wave-canvas> 파도 - 이미지 한 장으로 무한루프 고*/
 #minigame-overlay .wave-canvas {
     position: absolute;  /*game-screen 기준으로 파도를 띄움*/
     width: 200.5% !important; /* 끊김 없이 흐르게 하기 위해 2배 너비, 파도 이미지 사이 빈 틈을 없애기 위해 0.5 추가 */
@@ -40,12 +39,11 @@
     background-position: left top !important; /* 왼쪽에 붙어서 시작해라.(파도) */
     background-repeat: repeat-x; /*200.5%가 채워질때까지 복붙해라 X축으로_이미지 한 장을 가로로 계속 이어붙임*/
     shape-rendering: crispEdges; /*이미지의 경계선을 뭉개지 말고, 선명하게 그려라*/
-    -webkit-transform: translateZ(0) /* cpu 일 많아서 힘들까봐 GPU 불러옴_화면 안 끊김 */
+    -webkit-transform: translateZ(0) /* cpu 일 많아서 힘들까봐 GPU 불러옴_화면 안 끊김_애니메이션 끊김(버벅임) 방지 */
     /*-webkit- : 특정 엔진을 쓰는 브라우저(크롬, 사파리)들한테 "너네 전용 최적화 코드야" 알려주는것.*/
 }
 
-
-/*파도1 - 배 뒤*/
+/*<wave-canvas.-one> 파도1 - 배 뒤*/
 #minigame-overlay .wave-canvas.-one { 
     position: absolute;
     background-image: url("images/sea_wave.svg"); /*이미지임*/
@@ -57,7 +55,7 @@
     z-index: 10;
 }
 
-/*파도2 - 배 앞*/
+/*<wave-canvas.-two> 파도2 - 배 앞*/
 #minigame-overlay .wave-canvas.-two { 
     position: absolute;
     background-image: url("images/sea_wave.svg"); /* 1, 2번과 동일 이미지 확인 */
@@ -71,7 +69,7 @@
     z-index: 250;     
 }
 
-/*파도3 - 맨 앞*/
+/*<wave-canvas.-three> 파도3 - 맨 앞*/
 #minigame-overlay .wave-canvas.-three { 
     position: absolute;
     background-image: url("images/sea_wave.svg");
@@ -85,7 +83,7 @@
 }
 
 
-/*배 움직임*/
+/*<boat-container> 배 움직임*/
 #minigame-overlay .boat-container {
     position: absolute;
     top: 45%;
@@ -98,7 +96,7 @@
     /*boat-physics-bobbing 애니메이션 사용. 3.5초 간격으로 둥실둥실 무한반복 */
 }
 
-/*배 - 역사다리꼴 */
+/*<boat> 배 - 역사다리꼴 */
 #minigame-overlay .boat {
     position: absolute;
     bottom: 0;
@@ -110,7 +108,7 @@
 }
 
 
-/*어부 전체_위치*/
+/*<fisherman> 어부 전체_위치*/
 #minigame-overlay .fisherman {
     position: absolute;
     bottom: 90px;
@@ -118,34 +116,34 @@
     z-index: -1;  /*배 뒤에 배치 할 것_타고 있는 것처럼 보이게*/
 }
 
-/*어부_이미지 크기*/
+/*<fisherman img> 어부_이미지 크기*/
 #minigame-overlay .fisherman img {
     width: 100% !important;
     height: auto !important; /*가로 길이에 맞춰 세로 길이를 자동으로 계산_비율 안 깨지게*/
     display: block; /*빈틈 방지. 옆에 아무도 못 오게 막음 - 근데 z-index로 뚫림*/
 }
 
+/*<fish-style-0> 어부1*/
 /*game.js  <div class="fisherman fish-style-${idx % 3}"> */
 /*어부는 셋이 전부라 %3으로 돌려가며 씀.*/
-/*어부1*/
 #minigame-overlay .fish-style-0 {
     bottom: 40px;
     width: 250px !important; 
     transform: translate(calc(-50% + 145px), 0px); } /*중앙에서 145px만큼 이동.(반응형도 문제 없음.)*/
 
-/*어부2*/
+/*<fish-style-1> 어부2*/
 #minigame-overlay .fish-style-1 {
     bottom: 40px; 
     width: 280px !important; 
     transform: translate(calc(-50% + 160px), 0px); }
 
-/*어부3*/
+/*<fish-style-2> 어부3*/
 #minigame-overlay .fish-style-2 { 
     bottom: 40px; 
     width: 280px !important;
     transform: translate(calc(-50% + 160px), 0px); }
 
-/*낚싯줄*/
+/*<fishing-line> 낚싯줄*/
 #minigame-overlay .fishing-line {
     position: absolute; 
     width: 3px;
@@ -156,12 +154,12 @@
     z-index: 60;
 }
 
-/*낚싯줄 위치*/
+/*<line-style-0 / line-style-1 / line-style-2> 낚싯줄 위치*/
 #minigame-overlay .line-style-0 { right: -30px; top: 55px; }
 #minigame-overlay .line-style-1 { right: -60px; top: 85px; }
 #minigame-overlay .line-style-2 { right: -60px; top: 90px; }
 
-/*물고기 🐟*/
+/*<fish> 물고기 🐟*/
 #minigame-overlay .fish {
     position: absolute; 
     bottom: -35px; 
@@ -172,7 +170,7 @@
     z-index: 71;
 }
 
-/*낚시 찌 🔴*/
+/*<float> 낚시 찌 🔴*/
 #minigame-overlay .float {
     position: absolute;
     bottom: -15px; 
@@ -182,7 +180,7 @@
     z-index: 70;
 }
 
-/*팀이름+내역(왼쪽 위) 전체 영역*/
+/*<team-info> 팀이름+내역(왼쪽 위) 전체 영역*/
 #minigame-overlay .team-info {
     position: absolute; 
     top: 30px; 
@@ -191,7 +189,7 @@
     z-index: 300;
 }
 
-/*낚인 내역(왼쪽 위 박스)*/
+/*<record-box> 낚인 내역(왼쪽 위 박스)*/
 #minigame-overlay .record-box {
     background: rgba(255, 255, 255, 0.9);
     border: 4px solid #333;
@@ -205,7 +203,7 @@
 
 
 
-/*결과창*/
+/*<game-result-overlay> 결과창*/
 #game-result-overlay {
     position: absolute;
     display: none; /*숨어 있다 나올 예정*/
@@ -220,7 +218,7 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-/*결과창 보기 버튼*/
+/*<game-over-btn> 결과창 보기 버튼*/
 .game-over-btn{
     margin-top: 20%;
     display: flex;
@@ -230,7 +228,7 @@
     padding: 5px 12px !important;
 }
 
-/*카톡 공유 버튼*/
+/*<kakao-share-btn> 카톡 공유 버튼*/
 .kakao-share-btn {
     background-color: #FEE500 !important;
     margin-top: 20%;
@@ -280,4 +278,3 @@
     0% { transform: rotate(-10deg); } 
     100% { transform: rotate(10deg); } 
 }
-
