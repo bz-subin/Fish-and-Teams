@@ -55,6 +55,7 @@ function renderGameScreens() {
                     </div>
                     <div class="boat"></div>
                     <div class="fishing-line line-style-${styleIdx}" id="line-${idx}">
+                        <div class="float">🔴</div>
                         <div class="fish">🐟</div>
                     </div>
                 </div>
