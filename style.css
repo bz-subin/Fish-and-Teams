@@ -65,10 +65,11 @@
     width: 480px;
     height: 320px;
     z-index: 150;
+    animation: boat-physics-bobbing 3.5s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
 }
 
 #minigame-overlay .boat {
-    position: absolute; bottom: 0; width: 100%; height: 140px;
+    position: absolute; bottom: 0; width: 100%; height: 100px;
     background-color: #894F1C; border: 4px solid #5d3513;
     clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
 }
@@ -92,21 +93,21 @@
 
         /* 어부1 */
         #minigame-overlay .fish-style-0 {
-            bottom: 90px;
+            bottom: 40px;
             width: 250px !important;
-            transform: translate(calc(-50% + 180px), 0px);
+            transform: translate(calc(-50% + 145px), 0px);
         }
 
         /* 어부2 */
         #minigame-overlay .fish-style-1 {
-            bottom: 90px;     
+            bottom: 40px;     
             width: 280px !important;
             transform: translate(calc(-50% + 160px), 0px);
         }
 
         /* 어부3 */
         #minigame-overlay .fish-style-2 {
-            bottom: 90px;     
+            bottom: 40px;     
             width: 280px !important;
             transform: translate(calc(-50% + 160px), 0px);
         }
@@ -123,22 +124,22 @@
     z-index: 60;
 }
 
-        /* 어부1 */
+        /* 어부1 낚싯줄 */
         #minigame-overlay .line-style-0 {
-            right: -65px;
-            top: 5px;
+            right: -30px;
+            top: 55px;
         }
 
-        /* 어부2 */
+        /* 어부2 낚싯줄 */
         #minigame-overlay .line-style-1 {
             right: -60px;  
-            top: 35px;  
+            top: 85px;  
         }
 
-        /* 어부3 */
+        /* 어부3 낚싯줄 */
         #minigame-overlay .line-style-2 {
             right: -60px;  /* 1번보다 더 오른쪽이라면 숫자를 키우세요 */
-            top: 40px;   /* 1번보다 더 위쪽이라면 마이너스 값을 주세요 */
+            top: 90px;   /* 1번보다 더 위쪽이라면 마이너스 값을 주세요 */
         }
 
 
@@ -195,3 +196,5 @@
 /* 애니메이션 */
 @keyframes wave-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes struggle { 0% { transform: rotate(-10deg); } 100% { transform: rotate(10deg); } }
+@keyframes boat-physics-bobbing { 0%, 100% { transform: translate(-50%, -86%) rotate(-1.2deg);}
+    50% { transform: translate(-50%, -104%) rotate(2.5deg);} }
