@@ -4,16 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fish and Teams</title>
-
-
+    
     <!--import 같은 느낌으로 외부 파일을 불러오는 방식-->
     <!--link : css / script : js-->
     <!--swiper, swiper, kakao-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.0/kakao.min.js" integrity="sha384-lLe9t9o9V9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9z" crossorigin="anonymous"></script>
-
+    
     <!-- 만든 파일을 이음-->
+    <!--  css) reset, common, theme, style  /  js) crud, kako, game -->
     <link rel="stylesheet" href="css/reset.css" /> 
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/theme.css" />
@@ -21,31 +21,28 @@
     <script type="module" src="src/view/crud.js"></script>
     <script src="kako.js"></script>
     <script src="game.js"></script>
-
     </head>
-    
-    
+
     <body class="ocean">
     <header>
         <h1 class="logo"><a href="index.html"><img src="/img/Signature.svg" alt="" /></a></h1>
-        <!--a : 클릭하면 이동,  href : "어디로 갈건데?", alt : 이미지 안 뜰 때 대신 보여줄 글자-->
+        <!--a : 클릭하면 이동.  href : "어디로 갈건데?", alt : 이미지 안 뜰 때 대신 보여줄 글자-->
     </header>
-
+    
     <main>
         <div class="add-banner-left"></div> <!--[ add-banner-left(div) ] [ 메인 내용(container) ] [ add-banner-right(div) ]--> 
         <div class="container">
-            <section class="members">
+            <section class="members"> <!--첫번째 블록-->
                 <h2>Members</h2>
-
+                <!--버튼-->
                 <div class="manage-buttons" style="margin-bottom: 10px; display: flex; gap: 10px; justify-content: flex-end;">
                     <button onclick="addMember()" class="header-btn-C">추가</button> 
                     <button onclick="modifyMember()" class="header-btn-U">수정</button> 
                     <button onclick="delMember()" class="header-btn-D">삭제</button> 
                 </div>
-
-                <!--추가 누를 경우 뜨는 창-->
+                <!--표-->
                 <div class="table">
-                    <ul class="table-row table-header">
+                    <ul class="table-row table-header"> <!--li를 한 번에 묶는. 비가시성-->
                     <li class="table-cells tc-checkbox center"><input type="checkbox" onclick="sumCheckbox(this)" /></li>
                     <li class="table-cells tc-number">No</li>
                     <li class="table-cells tc-etc">이름</li>
@@ -53,11 +50,11 @@
                     <li class="table-cells tc-etc">성별</li>
                     <li class="table-cells tc-etc">능력치</li>
                     </ul>
-                    <ul class="table-data scrollbar"></ul>
+                    <ul class="table-data scrollbar"></ul> <!--스크롤바-->
                 </div>
             </section>
 
-            <section>
+            <section> <!--두번째 블록-->
                 <div>
                     <p>팀 수</p>
                     <input type="number" id="input-team-count" value="2" min="2" />  <!--value="기본값" min="최소값"-->
@@ -98,15 +95,13 @@
                     </button>
                 </div>
             </div>
-
         </div>
+
         <div class="add-banner-right"></div> 
 
-
-
     </main>
-
-
+    
+    
     <footer>
     </footer>
 
