@@ -148,9 +148,42 @@ window.addEventListener('keydown', (e) => {
 
 
 
-/* [종료] 게임 닫기 */
+
+
+
+
+// /* [종료] 게임 닫기 */
+// window.closeGameAndShowResult = function() {
+//     document.getElementById('minigame-overlay').style.display = 'none';
+//     document.getElementById('game-result-overlay').style.display = 'block';
+//     alert("결과 화면을 확인하세요!");
+//     location.reload();  /*버튼 클릭 시 새로고침 -> 새로 시작*/ 
+// };
 window.closeGameAndShowResult = function() {
+    // 1. 결과 데이터를 한 줄로 만듭니다 (실제 변수명을 사용하세요)
+    // 예시 데이터입니다. 실제 게임 로직에서 뽑힌 명단을 여기 넣으세요.
+    let teamA = ["철수", "영희"];
+    let teamB = ["길동", "명수"];
+
+    let resultHTML = `
+        <div style="margin-bottom: 10px;">
+            <p><strong>[A팀]</strong></p>
+            <p>${teamA.join(", ")}</p>
+        </div>
+        <div>
+            <p><strong>[B팀]</strong></p>
+            <p>${teamB.join(", ")}</p>
+        </div>
+    `;
+
+    // 2. 아까 그 빈 칸(area)에 이 명단을 팍! 꽂아넣습니다.
+    document.getElementById('team-result-area').innerHTML = resultHTML;
+
+    // 3. 창들을 끄고 켭니다.
     document.getElementById('minigame-overlay').style.display = 'none';
-    document.getElementById('game-result-overlay').style.display = 'none';
+    document.getElementById('game-result-overlay').style.display = 'block';
+
+    // 4. 알림창 띄우기
     alert("결과 화면을 확인하세요!");
+    location.reload(); 
 };
