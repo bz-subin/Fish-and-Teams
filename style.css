@@ -1,3 +1,75 @@
+/* 버튼들을 감싸는 영역 정렬 */
+.manage-buttons {
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+}
+
+.manage-buttons button { /*버튼 공통 속성*/
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 20px; /*동그랗게*/
+}
+
+/*추가 버튼*/
+.header-btn-C {
+    background-color: #4a90e2;
+}
+/*수정 버튼*/
+.header-btn-U {
+    background-color: #50c878;
+}
+/*삭제 버튼*/
+.header-btn-D {
+    background-color: #ff6b6b;
+}
+
+
+/* 섹션 간격 설정 */
+.team-config-section {
+    padding: 10px;
+}
+
+/* 밸런스 옵션 목록 스타일 (불필요한 점 제거 및 정렬) */
+.balance-options {
+    list-style: none; /* li 앞의 점 없애기 */
+    padding: 0;
+}
+
+.balance-options li {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* 체크박스와 글자 사이 간격 */
+}
+
+/* 버튼들을 감싸는 영역 */
+.button-wrapper {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+/* 조건부 배정 버튼 (파란색) */
+.btn-Control {
+    background-color: #007bff;
+    color: white;
+}
+
+/* 랜덤 배정 버튼 (초록색) */
+.btn-Random {
+    background-color: #28a745;
+    color: white;
+}
+
+
+
+
+
 /* <overlay> 기본 레이아웃_게임이 시작되는 순간  기존 화면을 싹 가림.*/
 #minigame-overlay {
     font-family: 'Pretendard', sans-serif;
