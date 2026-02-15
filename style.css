@@ -50,9 +50,11 @@
     background-size: 300px 100%; /*파도 이미지 가로 세로 고정*/
     height: 110% !important;  /*파도 출렁거림 대비 +10%*/
     top: 135px; /*위치 조정*/
-    animation: wave-move 30s linear infinite; /*wave-move 애니메이션 사용. 30초 간격으로 일정한 속도로 무한반복(움직여라)*/
     opacity: 0.8; /*바다 투명도*/
     z-index: 10;
+
+    animation: wave-move 30s linear infinite; /*wave-move 애니메이션 사용. 30초 간격으로 일정한 속도로 무한반복(움직여라)*/
+
 }
 
 /*<wave-canvas.-two> 파도2 - 배 앞*/
@@ -62,11 +64,13 @@
     background-size: 300px 100% !important; 
     box-shadow: -0.5px 0 0 #1A73E8, 0.5px 0 0 #1A73E8; /*파도 색과 똑같은 그림자를 양옆에 0.5px씩 붙여 틈을 메움*/
     top: 180px; 
-    animation: wave-move 33s linear infinite reverse; /*reverse 반대 방향으로 움직여라*/
     filter: brightness(0.7) contrast(1.2); /*필터로 색 변경(진한 파란색)*/
     transform: translateZ(0); 
     opacity: 0.7;
     z-index: 250;     
+
+    animation: wave-move 33s linear infinite reverse; /*reverse 반대 방향으로 움직여라*/
+
 }
 
 /*<wave-canvas.-three> 파도3 - 맨 앞*/
@@ -76,10 +80,12 @@
     background-size: 300px 100%; 
     height: 110% !important; 
     top: 160px; 
-    animation: wave-move 25s linear infinite reverse; 
     filter: brightness(0.7) contrast(1.2); 
     opacity: 0.9;
     z-index: 205; /
+
+    animation: wave-move 25s linear infinite reverse; 
+
 }
 
 
@@ -92,6 +98,7 @@
     width: 480px;
     height: 320px;
     z-index: 150;
+
     animation: boat-physics-bobbing 3.5s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
     /*boat-physics-bobbing 애니메이션 사용. 3.5초 간격으로 둥실둥실 무한반복 */
 }
@@ -166,8 +173,10 @@
     left: -20px; 
     display: none; /*숨겨져 있다가 자바스크립트에서 신호를 받으면 짜쟌~ 하고 나옴.*/
     font-size: 2.5rem; /*물고기 크기(이모지)*/
-    animation: struggle 0.2s infinite; /*struggle 애니메이션 사용. 파닥파닥 0.2초마다 무한반복*/ 
     z-index: 71;
+
+    animation: struggle 0.2s infinite; /*struggle 애니메이션 사용. 파닥파닥 0.2초마다 무한반복*/ 
+
 }
 
 /*<float> 낚시 찌 🔴*/
