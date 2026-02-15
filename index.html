@@ -7,14 +7,13 @@
 
 
     <!--import 같은 느낌으로 외부 파일을 불러오는 방식-->
-    <!--(스타일_css)Swiper_CSS-->
-	<!--(기능_js)Swiper_js-->
-	<!--(기능_js)카카오톡 개발자 도구(SDK)-->
+    <!--link : css / script : js-->
+    <!--swiper, swiper, kakao-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.0/kakao.min.js" integrity="sha384-lLe9t9o9V9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9z" crossorigin="anonymous"></script>
 
-    <!-- 만든 css 파일을 이음. import 와 동일-->
+    <!-- 만든 파일을 이음-->
     <link rel="stylesheet" href="css/reset.css" /> 
     <link rel="stylesheet" href="css/common.css" />
     <link rel="stylesheet" href="css/theme.css" />
@@ -26,21 +25,22 @@
     </head>
     
     
-    <!--a href : 클릭하면 이동-->
     <body class="ocean">
     <header>
         <h1 class="logo"><a href="index.html"><img src="/img/Signature.svg" alt="" /></a></h1>
+        <!--a : 클릭하면 이동,  href : "어디로 갈건데?", alt : 이미지 안 뜰 때 대신 보여줄 글자-->
     </header>
 
     <main>
-        <div class="add-banner-left"></div> <!--왼쪽 여백_members 왼쪽-->
+        <div class="add-banner-left"></div> <!--[ add-banner-left(div) ] [ 메인 내용(container) ] [ add-banner-right(div) ]--> 
         <div class="container">
             <section class="members">
                 <h2>Members</h2>
+
                 <div class="manage-buttons" style="margin-bottom: 10px; display: flex; gap: 10px; justify-content: flex-end;">
-                    <button onclick="addMember()" class="header-btn" style="background:#4a90e2; color:white;">추가</button>
-                    <button onclick="modifyMember()" class="header-btn" style="background:#50c878; color:white;">수정</button>
-                    <button onclick="delMember()" class="header-btn" style="background:#ff6b6b; color:white;">삭제</button>
+                    <button onclick="addMember()" class="header-btn-C">추가</button> 
+                    <button onclick="modifyMember()" class="header-btn-U">수정</button> 
+                    <button onclick="delMember()" class="header-btn-D">삭제</button> 
                 </div>
 
                 <!--추가 누를 경우 뜨는 창-->
@@ -54,7 +54,6 @@
                     <li class="table-cells tc-etc">능력치</li>
                     </ul>
                     <ul class="table-data scrollbar"></ul>
-                <!--자바스크립트 실행 시 사용자가 추가한 멤버 정보들이 태그 안으로 li형태가 되어 들어옴.-->
                 </div>
             </section>
 
@@ -71,33 +70,41 @@
                     <li><input type="checkbox" id="chk-ability" checked /><p>능력치</p></li>
                     </ul>
                 </div>
-                <div style="margin-top: 20px; display: flex; gap: 10px">
-                    <button id="btn-assign-teams" class="header-btn" style="background: #007bff; color: white">⚖️ 조건부 배정</button>
-                    <button id="btn-random-teams" class="header-btn" style="background: #28a745; color: white">🎲 랜덤 배정</button>
+                <div class="button-wrapper">
+                    <button id="btn-assign-teams" class="header-btn btn-Control">⚖️ 조건부 배정</button>
+                    <button id="btn-random-teams" class="header-btn btn-Random">🎲 랜덤 배정</button>
                 </div>
             </section>
 
-            <div id="team-result-area"></div>
-            </div>
-            <div class="add-banner-right"></div> 
-            </main>
 
+            <!--미니게임-->
             <div id="minigame-overlay">
-                <div class="swiper mySwiper">
-                    <div class="swiper-wrapper" id="game-screens-wrapper"></div>
+                <div class="swiper mySwiper"> <!--이 영역에서 swiper 쓸거임. /기차 창문-->
+                <div class="swiper-wrapper" id="game-screens-wrapper"></div> <!--js에 의해 이후 채워져 움직임. /바뀌는 풍경-->
                 </div>
-                
+
+                <!--게임 끝나면 뜨는 창-->
                 <div id="game-result-overlay">
                     <h3>🎣 만선 완료!</h3>
+
+                    <div id="team-result-area"></div> <!--결과창 보기 클릭 시 이어지는 화면 만들 때 사용(js)-->
+
                     <button type="button" class="game-over-btn" onclick="closeGameAndShowResult()">
                         결과창 보기
                     </button>
                     <button type="button" class="kakao-share-btn" onclick="shareToKakao()">
-                            <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카톡" width="18">
-                            카톡 공유
+                        <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카톡" width="18">
+                        카톡 공유
                     </button>
                 </div>
             </div>
+
+        </div>
+        <div class="add-banner-right"></div> 
+
+
+
+    </main>
 
 
     <footer>
