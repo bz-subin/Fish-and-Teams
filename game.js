@@ -109,9 +109,6 @@ wave-canvas -three : 파도3
 function processFishing() {
     const currentSwiper = gameData.currentSwiper; /*가독성 개선*/
     /*(.많아서 헷갈림 gameData 생략)*/ 
-
-    if (gameData.isFishing) return; /*낚시를 하고 있으면(true) 낚싯줄 다시 안 던지게 함(연타방지). */
-    gameData.isFishing = true; /*true가 아니면 '지금 낚시중임(true)'으로 바꿈*/
     const idx = currentSwiper.realIndex; /* 현재 내 눈앞에 보이는 슬라이드 번호(0, 1, 2...) */
     const activeSlide = currentSwiper.slides[currentSwiper.activeIndex]; 
     /* '슬라이드가 모두 담긴 배열'에서 내가 보고 있는 화면을 통째로 가져올거야. */
@@ -133,93 +130,75 @@ function processFishing() {
             if (team.members.length > 0) {  /*이 팀에 아직 낚시 안 한 멤버가 남아있나?*/
                 const member = team.members.shift();  
                 /*shift : 명단 맨 앞 사람 이름을 '쏙 뽑아냄'. 낚시로 뽑힌 사람(짜고치는) 이름 지우는것*/
-                if (record.innerHTML === "대기 중...") record.innerHTML = ""; /*처음에 대기중이라 떴다가 공백으로 바꿈*/
+                if (record.innerHTML === "대기 중...") record.innerHTML = ""; /*innerHTML이 대기중임? 그럼 공백으로 바꿔!*/
+                /*파이썬 ==이 자바스크립트에서는 ===임!!*/
                 const item = document.createElement('div'); /*공백을 채울 새 영역 만듦*/
-                item.innerHTML = `&nbsp;🎣 <b>${member.name}</b> 성공!`; /*성공이라 씀*/
-                record.prepend(item);  /*기록판(record) '맨 윗줄(prepend)'에 딱 붙임*/
+                item.innerHTML = `&nbsp;🎣 <b>${member.name}</b> 성공!`; /*새로 만든 영역 안에 성공이라 씀*/
+                record.prepend(item);  /*html 기록판(record) 영역의 '맨 윗줄(prepend)'에 딱 붙임_record는 js에 있음*/
                 gameData.totalFished++; /*몇마리 잡았는지 카운트 올림*/
             }
 
-            setTimeout(() => {
+            setTimeout(() => { /*0.8초 대기*/
                 /* 4. 초기화 및 즉시 화면 전환 */
-                fish.style.display = 'none';
-                if (float) float.style.display = 'block'; 
-                line.style.height = "150px"; 
+                fish.style.display = 'none'; /*물고기 없앰*/
+                if (float) float.style.display = 'block'; /*만약 찌가 보인다면*/
+                line.style.height = "150px"; /*낚싯줄 150으로 함.*/
 
                 // [수정] 화면 전환을 밖으로 빼서 즉시 실행 (속도 해결)
-                if (gameData.totalFished >= gameData.totalMembers) {
-                    document.getElementById('game-result-overlay').style.display = 'block';
-                } else {
-                    currentSwiper.slideNext();
+                if (gameData.totalFished >= gameData.totalMembers) { /*물고기 다 잡음?*/
+                    document.getElementById('game-result-overlay').style.display = 'block'; /*게임오버창 뜨게 하겠다.*/
+                } else { /*물고기 덜 잡음?*/
+                    currentSwiper.slideNext(); /*다음 슬라이드로 넘겨라.*/
                 }
 
                 // [수정] 방어막 해제만 0.6초 뒤에 실행 (드드득 방지)
-                setTimeout(() => {
-                    gameData.isFishing = false; 
+                setTimeout(() => { /*0.6초 대기*/
+                    gameData.isFishing = false; /*낚시 대기중임 언제든지 시작해도 됨!*/
                 }, 600); 
 
             }, 800); // 3번 데이터 처리 후 대기 시간
         }, 700); // 2번 히트 후 대기 시간
     }, 800); // 1번 찌 던진 후 대기 시간
 }
-/* [이벤트] 스페이스바 입력 감지 */
-window.addEventListener('keydown', (e) => {
-    const isOverlayVisible = document.getElementById('minigame-overlay').style.display === 'block';
-    if (e.code === 'Space' && isOverlayVisible && !gameData.isFishing) {
-        e.preventDefault();
-        processFishing();
+
+/*[이벤트]*/
+window.addEventListener('keydown', (e) => {  
+    /*키보드 입력 감지 고. e를 입력받아서 함수 실행.*/
+    if (e.code !== 'Space') return;  /*스페이스바 누르면 반환(바로 끝내버리기~)*/
+    e.preventDefault();   /* 스페이스바 기본 기능(스크롤) 막기 */
+    const gameisopen = document.getElementById('minigame-overlay').style.display === 'block';
+    /*html에서 미니게임 오버레이가 보이는 상태임??*/
+    /*gameisopen에 true, false로 입력받음 */
+    if (gameisopen && !gameData.isFishing) {
+        /*&&둘 다 참임?(게임 열려있음? 낚시 안하는거 맞음?*/
+        // [방어막] 여기서 딱 한 번만 문을 잠그기! 
+        gameData.isFishing = true;  /*(연타 방지)*/
+        processFishing(); //낚시 고!
     }
 });
 
-window.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') {
-        e.preventDefault(); // 페이지 스크롤 방지
-        
-        // 낚시 중이면 아예 함수를 실행하지 않고 리턴!
-        if (gameData.isFishing) return; 
-        
-        processFishing();
-    }
-});
 
-
-
-
-
-
-
-// /* [종료] 게임 닫기 */
-// window.closeGameAndShowResult = function() {
-//     document.getElementById('minigame-overlay').style.display = 'none';
-//     document.getElementById('game-result-overlay').style.display = 'block';
-//     alert("결과 화면을 확인하세요!");
-//     location.reload();  /*버튼 클릭 시 새로고침 -> 새로 시작*/ 
-// };
-window.closeGameAndShowResult = function() {
-    // 1. 결과 데이터를 한 줄로 만듭니다 (실제 변수명을 사용하세요)
-    // 예시 데이터입니다. 실제 게임 로직에서 뽑힌 명단을 여기 넣으세요.
-    let teamA = ["철수", "영희"];
-    let teamB = ["길동", "명수"];
-
+/*[종료]*/
+window.closeGame = function() { 
+    let caughtList = gameData.fishedMembers || ["아직 아무도 못 잡음"];
+    /*쌓인 데이터가 있으면 가져오고 ||(없으면) 아직 아무도 못 잡음 써라.*/
+    // 2. 명단을 예쁘게 조립 (A팀 B팀 구분은 님의 로직에 맞춰서!)
     let resultHTML = `
-        <div style="margin-bottom: 10px;">
-            <p><strong>[A팀]</strong></p>
-            <p>${teamA.join(", ")}</p>
-        </div>
-        <div>
-            <p><strong>[B팀]</strong></p>
-            <p>${teamB.join(", ")}</p>
+        <div style="text-align: center;">
+            <h3>🎣 만선 완료! 🎣</h3>
+            <p><strong>이번에 낚인 명단:</strong></p>
+            <p>${caughtList.join(", ")}</p> 
         </div>
     `;
 
-    // 2. 아까 그 빈 칸(area)에 이 명단을 팍! 꽂아넣습니다.
+    // 3. 전광판에 결과 팍! 꽂기
     document.getElementById('team-result-area').innerHTML = resultHTML;
 
-    // 3. 창들을 끄고 켭니다.
+    // 4. 화면 전환 (게임판 끄고, 결과창 켜고)
     document.getElementById('minigame-overlay').style.display = 'none';
     document.getElementById('game-result-overlay').style.display = 'block';
 
-    // 4. 알림창 띄우기
+    // 5. [수정] 새로고침은 삭제! (결과를 충분히 봐야 하니까요)
     alert("결과 화면을 확인하세요!");
-    location.reload(); 
+    location.reload();
 };
