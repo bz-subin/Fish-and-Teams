@@ -108,13 +108,13 @@ wave-canvas -three : 파도3
 /* [핵심 로직] 낚시 프로세스 (애니메이션 포함) */
 function processFishing() {
     const currentSwiper = gameData.currentSwiper; /*가독성 개선*/
-    /*(.많아서 헷갈림 gameData.currentSwiper.realIndex -> currentSwiper.realIndex)*/ 
+    /*(.많아서 헷갈림 gameData 생략)*/ 
 
     if (gameData.isFishing) return; /*낚시를 하고 있으면(true) 낚싯줄 다시 안 던지게 함(연타방지). */
     gameData.isFishing = true; /*true가 아니면 '지금 낚시중임(true)'으로 바꿈*/
     const idx = currentSwiper.realIndex; /* 현재 내 눈앞에 보이는 슬라이드 번호(0, 1, 2...) */
     const activeSlide = currentSwiper.slides[currentSwiper.activeIndex]; 
-    /* 슬라이드 중 지금 내 화면에 떠 있는 '그 페이지' 통째로 가져오기 */
+    /* '슬라이드가 모두 담긴 배열'에서 내가 보고 있는 화면을 통째로 가져올거야. */
 
     /*지금 페이지에 있는 요소 가져오기*/
     const line = activeSlide.querySelector('.fishing-line'); /*낚싯줄*/
@@ -122,25 +122,22 @@ function processFishing() {
     const float = activeSlide.querySelector('.float');  /*찌*/
     const record = activeSlide.querySelector('.record-box'); /*기록판*/
 
-    /* 1. 찌 던지기 */
-    line.style.height = "420px";
+    line.style.height = "420px"; /*낚싯줄이 길어짐!*/
+    setTimeout(() => { /*0.8초 기다림_물고기가 바로 잡혀올라오면 너무 빠름*/
+        if (float) float.style.display = 'none';  /*있던 찌를 없앰.*/
+        fish.style.display = 'block'; /*물고기 보이게 바꾸고*/
+        line.style.height = "130px"; /*낚싯줄 줄어듬_잡힌 물고기가 올라오는듯 보이게*/
 
-    setTimeout(() => {
-        /* 2. 히트! 물고기 등장 및 낚아채기 */
-        if (float) float.style.display = 'none'; 
-        fish.style.display = 'block';
-        line.style.height = "130px";
-
-        setTimeout(() => {
-            /* 3. 데이터 처리 및 기록 업데이트 */
-            const team = gameData.teams[idx];
-            if (team.members.length > 0) {
-                const member = team.members.shift();
-                if (record.innerHTML === "대기 중...") record.innerHTML = "";
-                const item = document.createElement('div');
-                item.innerHTML = `&nbsp;🎣 <b>${member.name}</b> 성공!`;
-                record.prepend(item);
-                gameData.totalFished++;
+        setTimeout(() => {  /*0.7초 기다림*/
+            const team = gameData.teams[idx]; /*지금 낚시한 팀이 몇번째 팀이였지?*/
+            if (team.members.length > 0) {  /*이 팀에 아직 낚시 안 한 멤버가 남아있나?*/
+                const member = team.members.shift();  
+                /*shift : 명단 맨 앞 사람 이름을 '쏙 뽑아냄'. 낚시로 뽑힌 사람(짜고치는) 이름 지우는것*/
+                if (record.innerHTML === "대기 중...") record.innerHTML = ""; /*처음에 대기중이라 떴다가 공백으로 바꿈*/
+                const item = document.createElement('div'); /*공백을 채울 새 영역 만듦*/
+                item.innerHTML = `&nbsp;🎣 <b>${member.name}</b> 성공!`; /*성공이라 씀*/
+                record.prepend(item);  /*기록판(record) '맨 윗줄(prepend)'에 딱 붙임*/
+                gameData.totalFished++; /*몇마리 잡았는지 카운트 올림*/
             }
 
             setTimeout(() => {
