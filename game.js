@@ -180,9 +180,9 @@ window.addEventListener('keydown', (e) => {
 
 /*[종료]*/
 window.closeGame = function() { 
-    let caughtList = gameData.fishedMembers || ["아직 아무도 못 잡음"];
+    let caughtList = gameData.finalMembers || ["아직 아무도 못 잡음"];
     /*쌓인 데이터가 있으면 가져오고 ||(없으면) 아직 아무도 못 잡음 써라.*/
-    // 2. 명단을 예쁘게 조립 (A팀 B팀 구분은 님의 로직에 맞춰서!)
+
     let resultHTML = `
         <div style="text-align: center;">
             <h3>🎣 만선 완료! 🎣</h3>
@@ -190,15 +190,15 @@ window.closeGame = function() {
             <p>${caughtList.join(", ")}</p> 
         </div>
     `;
+    /*결과창에 뿌릴 내용*/
 
-    // 3. 전광판에 결과 팍! 꽂기
     document.getElementById('team-result-area').innerHTML = resultHTML;
+    /*team-result-area 안쪽 html 내용과 resultHTML을 바꾸겠다.*/
 
     // 4. 화면 전환 (게임판 끄고, 결과창 켜고)
-    document.getElementById('minigame-overlay').style.display = 'none';
-    document.getElementById('game-result-overlay').style.display = 'block';
+    document.getElementById('minigame-overlay').style.display = 'none'; /*미니게임 끔*/
+    document.getElementById('game-result-overlay').style.display = 'block'; /*결과창 나와라잉*/
 
-    // 5. [수정] 새로고침은 삭제! (결과를 충분히 봐야 하니까요)
     alert("결과 화면을 확인하세요!");
-    location.reload();
+    location.reload(); /*브라우저 새로고침 버튼(F5)을 코드로 누르는 것*/
 };
