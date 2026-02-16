@@ -112,8 +112,9 @@
     background-position: left top !important; /* 왼쪽에 붙어서 시작해라.(파도) */
     background-repeat: repeat-x; /*200.5%가 채워질때까지 복붙해라 X축으로_이미지 한 장을 가로로 계속 이어붙임*/
     shape-rendering: crispEdges; /*이미지의 경계선을 뭉개지 말고, 선명하게 그려라*/
-    -webkit-transform: translateZ(0) /* cpu 일 많아서 힘들까봐 GPU 불러옴_화면 안 끊김_애니메이션 끊김(버벅임) 방지 */
+    -webkit-transform: translateZ(0); /* cpu 일 많아서 힘들까봐 GPU 불러옴_화면 안 끊김_애니메이션 끊김(버벅임) 방지 */
     /*-webkit- : 특정 엔진을 쓰는 브라우저(크롬, 사파리)들한테 "너네 전용 최적화 코드야" 알려주는것.*/
+    animation: wave-move 25s linear infinite;
 }
 
 /*<wave-canvas.-one> 파도1 - 배 뒤*/
@@ -122,11 +123,14 @@
     background-image: url("images/sea_wave.svg"); /*이미지임*/
     background-size: 300px 100%; /*파도 이미지 가로 세로 고정*/
     height: 110% !important;  /*파도 출렁거림 대비 +10%*/
-    top: 135px; /*위치 조정*/
-    opacity: 0.8; /*바다 투명도*/
+    top: 180px; /*위치 조정*/
+
+    filter: brightness(0.4) contrast(1.2); /*필터로 색 변경(진한 파란색)*/
+    opacity: 0.4; /*바다 투명도*/
     z-index: 10;
 
-    animation: wave-move 30s linear infinite; /*wave-move 애니메이션 사용. 30초 간격으로 일정한 속도로 무한반복(움직여라)*/
+    animation: wave-move 33s linear infinite, just-up-down 5.5s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+    /*wave-move 애니메이션 사용. 30초 간격으로 일정한 속도로 무한반복(움직여라)*/
 
 }
 
@@ -136,13 +140,13 @@
     background-image: url("images/sea_wave.svg"); /* 1, 2번과 동일 이미지 확인 */
     background-size: 300px 100% !important; 
     box-shadow: -0.5px 0 0 #1A73E8, 0.5px 0 0 #1A73E8; /*파도 색과 똑같은 그림자를 양옆에 0.5px씩 붙여 틈을 메움*/
-    top: 180px; 
-    filter: brightness(0.7) contrast(1.2); /*필터로 색 변경(진한 파란색)*/
+    top: 190px; 
+    filter: brightness(0.8) contrast(1.2); /*필터로 색 변경(진한 파란색)*/
     transform: translateZ(0); 
-    opacity: 0.7;
-    z-index: 250;     
+    opacity: 0.8;
+    z-index: 149;     
 
-    animation: wave-move 33s linear infinite reverse; /*reverse 반대 방향으로 움직여라*/
+    animation: wave-move 33s linear infinite;
 
 }
 
@@ -153,12 +157,11 @@
     background-image: url("images/sea_wave.svg");
     background-size: 300px 100%; 
     height: 110% !important; 
-    top: 160px; 
-    filter: brightness(0.7) contrast(1.2); 
-    opacity: 0.9;
-    z-index: 205; /
-
-    animation: wave-move 25s linear infinite reverse; 
+    top: 170px; 
+    filter: brightness(0.6) contrast(1.2); 
+    opacity: 0.5;
+    z-index: 205;
+    animation: wave-move 28s linear infinite reverse;
 
 }
 
@@ -174,14 +177,14 @@
     background-position: bottom; /* 이미지 자체를 박스 하단에 배치 */
 
     /* 2. 위치 잡기 */
-    width: 100%;       /* 가로로 꽉 차게 */
+    width: 103%;       /* 가로로 꽉 차게 */
     height: 300px;     /* 바닥 높이만큼만 설정 (110%는 너무 커요!) */
     bottom: 0;         /* top 대신 bottom: 0을 써야 바닥에 딱 붙음 */
     left: 0;
 
     /* 3. 화면 순서 */
-    opacity: 0.7;
-    z-index: 206;      /* 파도나 다른 요소보다 뒤 혹은 앞인지 확인 필요 */
+    opacity: 0.5;
+    z-index: 150;      /* 파도나 다른 요소보다 뒤 혹은 앞인지 확인 필요 */
     pointer-events: none; /* 클릭 방해 금지 (낚시 클릭 안 씹히게!) */
 }
 
@@ -316,7 +319,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 999;
+    z-index: 9999;
     background: white;
     padding: 30px;
     border-radius: 15px;
@@ -350,6 +353,22 @@
 
 /*애니메이션*/
 
+/*보트 둥실둥실*/
+@keyframes boat-physics-bobbing { 
+    0%, 100% { transform: translate(-50%, -88%) rotate(-0.8deg); } /*시작0과 끝100을 같게 함*/
+    50% { transform: translate(-50%, -96%) rotate(1.5deg); } /*중간50*/
+    /*올라가면서 오른쪽으로 까딱 내려오면서 왼쪽으로 까딱*/
+    /*x축은 -50%로 고정. y축만 변화(-88 -> -96 -> -88), 기울임 변화(-0.8 -> 1.5 -> -0.8)   */ 
+}
+
+/*물고기 파닥파닥*/
+/*왼오왼오왼오*/
+@keyframes struggle { 
+    0% { transform: rotate(-10deg); } 
+    100% { transform: rotate(10deg); } 
+}
+
+
 /*파도가 무한으로 돌아가는*/
 @keyframes wave-move {
     from { transform: translateX(0); } /*처음 시작지점*/
@@ -370,17 +389,10 @@
 */  
 }
 
-/*보트 둥실둥실*/
-@keyframes boat-physics-bobbing { 
-    0%, 100% { transform: translate(-50%, -88%) rotate(-0.8deg); } /*시작0과 끝100을 같게 함*/
-    50% { transform: translate(-50%, -96%) rotate(1.5deg); } /*중간50*/
-    /*올라가면서 오른쪽으로 까딱 내려오면서 왼쪽으로 까딱*/
-    /*x축은 -50%로 고정. y축만 변화(-88 -> -96 -> -88), 기울임 변화(-0.8 -> 1.5 -> -0.8)   */ 
+
+/*파도 위아래 움직임*/
+@keyframes just-up-down {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); } /* -는 위로, +는 아래로! */
 }
 
-/*물고기 파닥파닥*/
-/*왼오왼오왼오*/
-@keyframes struggle { 
-    0% { transform: rotate(-10deg); } 
-    100% { transform: rotate(10deg); } 
-}
