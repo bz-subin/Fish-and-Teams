@@ -35,7 +35,7 @@ window.startFishingGame = function(calculatedTeams) {
     
     if (gameData.currentSwiper) gameData.currentSwiper.destroy(); 
     /*(gameData.currentSwiper): gameData.currentSwiper가 존재해?(참임?)
-    참이면(이전 게임 슬라이더 기록이 있으면) 삭제(destroy)*/
+    참이면(이전 게임 슬라이더 기록이 있으면) 그거 삭제 할거임(destroy)*/
         gameData.currentSwiper = new Swiper(".mySwiper", { /*new : 인스턴스 생성 연산자. 불러온 swiper를 쓰기 위해 인스턴스 만듦*/
         allowTouchMove: false, /*터치로 넘어가게 안할거임*/
         loop: true, /*끝까지 가면 돌아오게 할거임*/
@@ -106,15 +106,20 @@ wave-canvas -three : 파도3
 
 /* [핵심 로직] 낚시 프로세스 (애니메이션 포함) */
 function processFishing() {
-    if (gameData.isFishing) return; /*너 지금 낚시중이니? _ 스페이스바 연타 시, 낚싯줄이 수백 개 내려가는것 방지*/
-    gameData.isFishing = true; /*낚시 애니메이션이 진행 중인가? 확인*/
+    const currentSwiper = gameData.currentSwiper; /*가독성 개선*/
+    /*(.많아서 헷갈림 gameData.currentSwiper.realIndex -> currentSwiper.realIndex)*/ 
 
-    const idx = gameData.currentSwiper.realIndex;
-    const activeSlide = gameData.currentSwiper.slides[gameData.currentSwiper.activeIndex];
-    const line = activeSlide.querySelector('.fishing-line');
-    const fish = activeSlide.querySelector('.fish');
-    const float = activeSlide.querySelector('.float'); 
-    const record = activeSlide.querySelector('.record-box');
+    if (gameData.isFishing) return; /*낚시를 하고 있으면(true) 낚싯줄 다시 안 던지게 함(연타방지). */
+    gameData.isFishing = true; /*true가 아니면 '지금 낚시중임(true)'으로 바꿈*/
+    const idx = currentSwiper.realIndex; /* 현재 내 눈앞에 보이는 슬라이드 번호(0, 1, 2...) */
+    const activeSlide = currentSwiper.slides[currentSwiper.activeIndex]; 
+    /* 슬라이드 중 지금 내 화면에 떠 있는 '그 페이지' 통째로 가져오기 */
+
+    /*지금 페이지에 있는 요소 가져오기*/
+    const line = activeSlide.querySelector('.fishing-line'); /*낚싯줄*/
+    const fish = activeSlide.querySelector('.fish'); /*물고기*/
+    const float = activeSlide.querySelector('.float');  /*찌*/
+    const record = activeSlide.querySelector('.record-box'); /*기록판*/
 
     /* 1. 찌 던지기 */
     line.style.height = "420px";
@@ -147,7 +152,7 @@ function processFishing() {
                 if (gameData.totalFished >= gameData.totalMembers) {
                     document.getElementById('game-result-overlay').style.display = 'block';
                 } else {
-                    gameData.currentSwiper.slideNext();
+                    currentSwiper.slideNext();
                 }
 
                 // [수정] 방어막 해제만 0.6초 뒤에 실행 (드드득 방지)
