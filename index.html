@@ -1,47 +1,56 @@
-<!doctype html>
+<!--요약 : 불러오기, 첫 화면(멤버 테이블, 컨트롤) + 미니게임 들어갈 영역-->
+<!DOCTYPE html>
 <html lang="ko">
     <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fish and Teams</title>
+
+
+    <!--import 같은 느낌.
+    # 외부 파일을 불러옴
+    link : css / script : js
+    swiper, swiper, kakao
     
-    <!--import 같은 느낌으로 외부 파일을 불러오는 방식-->
-    <!--link : css / script : js-->
-    <!--swiper, swiper, kakao-->
+    # 직접 만든 파일을 이음
+    css : reset(레이아웃), common(레이아웃), theme(테마), style(디자인)
+    js : crud(버튼), kako(카톡), game(미니게임) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.0/kakao.min.js" integrity="sha384-lLe9t9o9V9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9zV9z" crossorigin="anonymous"></script>
-    
-    <!-- 만든 파일을 이음-->
-    <!--  css) reset, common, theme, style  /  js) crud, kako, game -->
+
     <link rel="stylesheet" href="css/reset.css" /> 
-    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/common.css" /> 
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="style.css" />
-    <script type="module" src="src/view/crud.js"></script>
-    <script src="kako.js"></script>
-    <script src="game.js"></script>
+    <script type="module" src="src/view/crud.js"></script> <!--직접적으로 부르지 않은 다른 파일을 이어줌.-->
+    <script src="kako.js"></script> 
+    <script src="game.js"></script> 
     </head>
+
+    <!--
+    기본 테마 ocean(theme.css 참고)
+    header_h1 : 로고 클릭 시 index.html의 맨 처음 화면으로 이동.
+    main 구조 :   add-banner-left(div)         container       add-banner-right(div)
+                |         div         |   section - members   |        div         |
+                |         div         |       section         |        div         | -->
 
     <body class="ocean">
     <header>
         <h1 class="logo"><a href="index.html"><img src="/img/Signature.svg" alt="" /></a></h1>
-        <!--a : 클릭하면 이동.  href : "어디로 갈건데?", alt : 이미지 안 뜰 때 대신 보여줄 글자-->
     </header>
-    
     <main>
-        <div class="add-banner-left"></div> <!--[ add-banner-left(div) ] [ 메인 내용(container) ] [ add-banner-right(div) ]--> 
+        <div class="add-banner-left"></div>
         <div class="container">
-            <section class="members"> <!--첫번째 블록, 이후 js로 멤버 추가할거라 class 이름 지어준거.-->
+            <section class="members">
                 <h2>Members</h2>
-                <!--버튼-->
-                <div class="manage-buttons" style="margin-bottom: 10px; display: flex; gap: 10px; justify-content: flex-end;">
+                <div class="manage-buttons"> <!--버튼_공통 (배치, 정렬)-->
+                    <!--버튼 클릭 시 함수 작동(CRUD.js). 클래스에 넣어야 css 관리 쉬움 -->
                     <button onclick="addMember()" class="header-btn-C">추가</button> 
                     <button onclick="modifyMember()" class="header-btn-U">수정</button> 
                     <button onclick="delMember()" class="header-btn-D">삭제</button> 
                 </div>
-                <!--표-->
-                <div class="table">
+                <div class="table"> <!--표-->
                     <ul class="table-row table-header"> <!--li를 한 번에 묶는. 비가시성-->
                     <li class="table-cells tc-checkbox center"><input type="checkbox" onclick="sumCheckbox(this)" /></li>
                     <li class="table-cells tc-number">No</li>
@@ -54,14 +63,14 @@
                 </div>
             </section>
 
-            <section> <!--두번째 블록-->
+            <section>
                 <div>
                     <p>팀 수</p>
-                    <input type="number" id="input-team-count" value="2" min="2" />  <!--value="기본값" min="최소값"-->
+                    <input type="number" id="input-team-count" value="2" min="2" />
                 </div>
                 <div>
                     <p>밸런스</p>
-                    <ul>
+                    <ul> <!--체크 되었는지만 확인하는거라 id 사용-->
                     <li><input type="checkbox" id="chk-age" /><p>나이</p></li>
                     <li><input type="checkbox" id="chk-gender" checked /><p>성별</p></li>
                     <li><input type="checkbox" id="chk-ability" checked /><p>능력치</p></li>
@@ -73,34 +82,11 @@
                 </div>
             </section>
 
-
-            <!--미니게임-->
-            <div id="minigame-overlay">
-                <div class="swiper mySwiper"> <!--이 영역에서 swiper 쓸거임. /기차 창문, 액자-->
-                <div class="swiper-wrapper" id="game-screens-wrapper"></div> <!--js에 의해 이후 채워져 움직임. /바뀌는 풍경-->
-                </div>
-
-                <!--게임 끝나면 뜨는 창-->
-                <div id="game-result-overlay">
-                    <h3>🎣 만선 완료!</h3>
-
-                    <div id="team-result-area"></div> <!--결과창 보기 클릭 시 이어지는 화면 만들 때 사용(js)-->
-
-                    <button type="button" class="game-over-btn" onclick="closeGame()">
-                        결과창 보기
-                    </button>
-                    <button type="button" class="kakao-share-btn" onclick="shareToKakao()">
-                        <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카톡" width="18">
-                        카톡 공유
-                    </button>
-                </div>
-            </div>
+            <!--미니 게임 영역_이후 채워짐(game.js).-->
+            <div id="minigame-overlay"></div>
         </div>
-
         <div class="add-banner-right"></div> 
-
     </main>
-    
     
     <footer>
     </footer>
