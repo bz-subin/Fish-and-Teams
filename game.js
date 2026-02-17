@@ -1,60 +1,96 @@
-/* 낚시 게임 엔진 및 데이터 관리 -> 엔진: 데이터를 넣으면 스스로 돌아가며 게임의 '규칙'과 '흐름'을 통제.*/
+/* 게임 엔진 역할(중요한 것들 다 모아둠_이걸 기반으로 함수가 기능함)*/
 let gameData = { 
     teams: [], 
-    currentSwiper: null, /*비어있는 상태(null). 값 추가 시 Swiper 라이브러리의 인스턴스 실행 가능.*/
-    isFishing: false, /*낚시 애니메이션이 진행 중인가? 확인. true의 경우 이걸로 중복 실행 방어*/
-    totalFished: 0, /*낚아올려진 팀원 수(실시간 변화)*/
-    totalMembers: 0  /*전체 참여 인원(낚시 할 총 인원수)*/
+    currentSwiper: null, /*비어있음. 화면 움직이는 기능 넣을 예정_slideNext(), slidePrev() 등*/
+    isFishing: false, /*낚시 애니메이션 실행 중임? ㄴㄴ_중복 실행 방어*/
+    totalFished: 0, /*낚아올려진 팀원 수*/
+    totalMembers: 0  /*전체 참여 인원(낚시 할 총 인원)*/
 };
 
-/* 게임 시작 누르면 한 번만 실행됨_외부 호출 진입점 */
+
+/* window는 공용 공간과 같음. 어떤 파일에서도 사용 가능. 이름은 매번 다시 정해줘야함
+1. 명단 받아서 조립
+renderTeamResult.js - window.startFishingGame(teams);
+=> teams라고 부르던 '팀 분배 끝난' 명단의 '알맹이'만을 startFishingGame으로 받아온 뒤 calculatedTeams라고 재정의.
+받은 명단(calculatedTeams) : n 팀으로 나눠져서(분배 끝난 결과만) 들어옴.
+명단에서 members(이름)와 idx만을 골라서(map), teamName, member의 구조로 조립해서 변수에 넣겠다.
+before(map) -> members : ["김수빈", "김빈수"], ["수김빈", "빈수김"] / idx : 0, 1
+after(재조립) -> team1 : ["김수빈", "김빈수"], team2 : ["수김빈", "빈수김"]
+(... : 복제 /이름은(members) 팀 명단에서 바로 꺼내쓰는게 아니라 복제해서 조립)
+
+2. 게임 시작 전 초기화
+조립한 명단 합치고(flat), 숫자 셈(length) ["김수빈","김빈수","수김빈","빈수김"] = 4
+낚아올려진 팀원 수
+낚시 애니메이션 실행중 X(실행 가능)
+
+3. 미니 게임 화면 제어 
+renderGameScreens 함수 실행(none라서 숨겨져 있음. 안 보이는 상태)
+display = 'block : 숨겨둔 화면 보여줘.
+
+(currentSwiper : swiper 인스턴스)
+4. 조건식 gameData.currentSwiper가 존재해?
+참이면 그거 삭제 할거임(destroy) _기존 내용/새로 들어온 내용 충돌 방지
+
+<currentSwiper(인스턴스)에 '인스턴스 설정' 넣기>
+1. html 위치 확인, css 확인(.mySwiper_CSS 선택자)
+    <div class="swiper mySwiper"> 하나의 요소에 두 개의 클래스를 한번에 준것.
+2. 터치로 넘어가게 안할거임
+3. 끝까지 가면 돌아오게 할거임
+4. html 내용이 바뀌면 즉시 새로고침해서 바뀐 내용 적용(내부 감시)
+5. 갑자기 없던게 생기면 슬라이더 크기 다시 계산(외부 감시) */
+
 window.startFishingGame = function(calculatedTeams) {
     gameData.teams = calculatedTeams.map((members, idx) => ({
     teamName: `Team ${idx + 1}`,
     members: [...members]
     }));
-    /*
-    calculatedTeams : 분류가 끝난 팀원 명단  [김수빈 김빈수] [수김빈 빈수김]
-        '받은 명단'을 members과 idx로 나눠서(배열> members : 팀원 다 / idx : 받은 명단 수 ) gameData.teams에 넣는다.
-        teamName = 'members idx' 구조로 재조립. 'Team 1', 'Team 2' 이런식으로 (idx는 1부터 시작하게 +1)
-        (... : 복제본 만드는것)_원본 보호
-
-        gameData.teams는 (teamName : Team 1 , members: 김수빈 김빈수 )의 구조일것.
-    */
 
     /*게임 시작 전 초기화*/
-    gameData.totalMembers = calculatedTeams.flat().length; /*합치고(flat), 숫자 셈(length) ["김수빈","김빈수","수김빈","빈수김"] = 4*/ 
+    gameData.totalMembers = calculatedTeams.flat().length;
     gameData.totalFished = 0; 
-    gameData.isFishing = false; /*위랑 중복(안정성) */
+    gameData.isFishing = false;
 
     renderGameScreens();
-    /* 함수 실행 -> HTML(화면 요소)을 그려냄.*/
-
-
-    document.getElementById('minigame-overlay').style.display = 'block'; /*숨겨둔 화면 보여줘.*/
+    document.getElementById('minigame-overlay').style.display = 'block';
     
     if (gameData.currentSwiper) gameData.currentSwiper.destroy(); 
-    /*(gameData.currentSwiper): gameData.currentSwiper가 존재해?(참임?)
-    참이면(이전 게임 슬라이더 기록이 있으면) 그거 삭제 할거임(destroy)*/
         gameData.currentSwiper = new Swiper(".mySwiper", { /*new : 인스턴스 생성 연산자. 불러온 swiper를 쓰기 위해 인스턴스 만듦*/
-        allowTouchMove: false, /*터치로 넘어가게 안할거임*/
-        loop: true, /*끝까지 가면 돌아오게 할거임*/
-        observer: true,  /*내부 감시_html 내용이 바뀌면 즉시 새로고침해서 바뀐 내용 적용*/
-        observeParents: true /*외부 감시_갑자기 없던게 생기면 슬라이더 크기 다시 계산*/
+        allowTouchMove: false,
+        loop: true,
+        observer: true, 
+        observeParents: true
     });
 };
 
 
-/* 렌더링 */
+/* 렌더링: HTML 뼈대부터 슬라이드까지 한 번에 생성 */
 function renderGameScreens() {
-    const wrapper = document.getElementById('game-screens-wrapper');
-    /*HTML에서 'game-screens-wrapper'라는 ID를 가진 박스를 찾아서 wrapper에 담아*/
-    wrapper.innerHTML = gameData.teams.map((team, idx) => {
-    /*gameData.teams는 (teamName : Team 1 , members: 김수빈 김빈수 )의 구조일것.*/
-    /*이걸 팀 명, 팀 수로 나누겠다 이 말. (teamName : Team1, Team2 / idx: 0, 1)*/ 
+    // 1. 가장 바깥쪽 큰 그릇을 찾습니다.
+    const overlay = document.getElementById('minigame-overlay');
+    
+    // 2. [추가된 부분] 게임의 전체적인 레이아웃(Swiper 껍데기 + 결과창)을 먼저 그립니다.
+    // 기존 HTML 파일에 있던 복잡한 태그들을 이 백틱(``) 안으로 옮겨온 거예요.
+    overlay.innerHTML = `
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper" id="game-screens-wrapper"></div>
+        </div>
 
-        const styleIdx = idx % 3; /*팀 수에 어떤 숫자가 들어와도 0, 1, 2만 반복_이유: 어부가 3명뿐*/
-        const imgNumber = styleIdx + 1; // 실제 이미지 파일 번호로 바꿈. fish_man(1,2,3)
+        <div id="game-result-overlay" style="display: none;">
+            <h3>🎣 만선 완료!</h3>
+            <div id="team-result-area"></div>
+            <button type="button" class="game-over-btn" onclick="closeGame()">결과창 보기</button>
+            <button type="button" class="kakao-share-btn" onclick="shareToKakao()">
+                <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="카톡" width="18">
+                카톡 공유
+            </button>
+        </div>
+    `;
+
+    // 3. [기존 로직] 이제 방금 만든 'game-screens-wrapper'를 찾아서 팀별 슬라이드를 채웁니다.
+    const wrapper = document.getElementById('game-screens-wrapper');
+    wrapper.innerHTML = gameData.teams.map((team, idx) => {
+        const styleIdx = idx % 3;
+        const imgNumber = styleIdx + 1;
 
         return `
         <div class="swiper-slide">
@@ -83,7 +119,6 @@ function renderGameScreens() {
         </div>`;
     }).join('');
 }
-
 
 
 
