@@ -1,20 +1,19 @@
-/* 버튼들을 감싸는 영역 정렬 */
+/*CUD 버튼_공통 (배치, 정렬)*/
 .manage-buttons {
     margin-bottom: 10px;
     display: flex;
     gap: 10px;
-    justify-content: flex-end; /* 오른쪽 정렬 */
+    justify-content: flex-end;
 }
 
-/*<button>*/
-.manage-buttons button { /*버튼 공통 속성*/
+/*<button> 공통 디자인 속성*/
+.manage-buttons button { 
     color: white;
     border: none;
     padding: 8px 15px;
-    border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    border-radius: 20px; /*동그랗게*/
+    border-radius: 20px;
 }
 
 /*추가 버튼*/
@@ -30,25 +29,8 @@
     background-color: #ff6b6b;
 }
 
-
-/* 섹션 간격 설정 */
-.team-config-section {
-    padding: 10px;
-}
-
-/* 밸런스 옵션 목록 스타일 (불필요한 점 제거 및 정렬) */
-.balance-options {
-    list-style: none; /* li 앞의 점 없애기 */
-    padding: 0;
-}
-
-.balance-options li {
-    display: flex;
-    align-items: center;
-    gap: 5px; /* 체크박스와 글자 사이 간격 */
-}
-
-/* 버튼들을 감싸는 영역 */
+/*----------------------------------------------------------------------*/
+/* 조건부, 랜덤 버튼_공통 (배치, 정렬)*/
 .button-wrapper {
     margin-top: 20px;
     display: flex;
@@ -67,227 +49,40 @@
     color: white;
 }
 
-
-
-
-
-/* <overlay> 기본 레이아웃_게임이 시작되는 순간  기존 화면을 싹 가림.*/
+/*----------------------------------------------------------------------*/
+/*<overlay> 기존 화면 위에 종이 한 장 얹음(새 창 뜨는게X)*/
 #minigame-overlay {
     font-family: 'Pretendard', sans-serif;
     text-align: center; 
     margin: 0;
     padding: 0;
-    display: none; /*숨겨뒀다가 미니게임 시작 시 자바스크립트로 보이게 함*/
-    position: fixed !important; /*스크롤을 내려도 화면에 딱 붙어있게 강제*/
+    display: none;
+    position: fixed !important;
     top: 0;
     left: 0;
     width: 100vw; 
     height: 100vh;
-    z-index: 10000; /*무조건 위에 오도록 설정*/
+    z-index: 10000; 
     background-color: white; 
 }
 
-/*<swiper> 화면 넘기는 기능 쓸거임. */
-/*#minigame-overlay의 width, height를 그대로 가져오겠다(부모, 자식 관계)*/
+/*<swiper> 미니게임 실행 시에만 swiper 기능 쓸거임. 
+액자 크기 지정. 100*100의 크기로 화면을 비출것.*/
 #minigame-overlay .swiper {
     width: 100%;
     height: 100%;
 }
 
-/*<game-screen> swiper용 화면*/
-/*relative_매우중요 : 요소 배치 시 기준점이 됨*/
+/*<game-screen> 액자 뒤 화면. 배치할 요소들의 기준점*/
 #minigame-overlay .game-screen {
-    position: relative;
+    position: relative; /*기준*/
     width: 100%;
     height: 100%;
     background:  #e4f0f9 100%;
-    overflow: hidden; /*액자 역할. 화면 밖으로 튀어나온건 숨겨줌*/
+    overflow: hidden; 
 }
-
-/*<wave-canvas> 파도 - 이미지 한 장으로 무한루프 고*/
-#minigame-overlay .wave-canvas {
-    position: absolute;  /*game-screen 기준으로 파도를 띄움*/
-    width: 200.5% !important; /* 끊김 없이 흐르게 하기 위해 2배 너비, 파도 이미지 사이 빈 틈을 없애기 위해 0.5 추가 */
-    height: 100%; 
-    background-position: left top !important; /* 왼쪽에 붙어서 시작해라.(파도) */
-    background-repeat: repeat-x; /*200.5%가 채워질때까지 복붙해라 X축으로_이미지 한 장을 가로로 계속 이어붙임*/
-    shape-rendering: crispEdges; /*이미지의 경계선을 뭉개지 말고, 선명하게 그려라*/
-    -webkit-transform: translateZ(0); /* cpu 일 많아서 힘들까봐 GPU 불러옴_화면 안 끊김_애니메이션 끊김(버벅임) 방지 */
-    /*-webkit- : 특정 엔진을 쓰는 브라우저(크롬, 사파리)들한테 "너네 전용 최적화 코드야" 알려주는것.*/
-    animation: wave-move 25s linear infinite;
-}
-
-/*<wave-canvas.-one> 파도1 - 배 뒤*/
-#minigame-overlay .wave-canvas.-one { 
-    position: absolute;
-    background-image: url("images/sea_wave.svg"); /*이미지임*/
-    background-size: 300px 100%; /*파도 이미지 가로 세로 고정*/
-    height: 110% !important;  /*파도 출렁거림 대비 +10%*/
-    top: 180px; /*위치 조정*/
-
-    filter: brightness(0.4) contrast(1.2); /*필터로 색 변경(진한 파란색)*/
-    opacity: 0.4; /*바다 투명도*/
-    z-index: 10;
-
-    animation: wave-move 33s linear infinite, just-up-down 5.5s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
-    /*wave-move 애니메이션 사용. 30초 간격으로 일정한 속도로 무한반복(움직여라)*/
-
-}
-
-/*<wave-canvas.-two> 파도2 - 배 앞*/
-#minigame-overlay .wave-canvas.-two { 
-    position: absolute;
-    background-image: url("images/sea_wave.svg"); /* 1, 2번과 동일 이미지 확인 */
-    background-size: 300px 100% !important; 
-    box-shadow: -0.5px 0 0 #1A73E8, 0.5px 0 0 #1A73E8; /*파도 색과 똑같은 그림자를 양옆에 0.5px씩 붙여 틈을 메움*/
-    top: 190px; 
-    filter: brightness(0.8) contrast(1.2); /*필터로 색 변경(진한 파란색)*/
-    transform: translateZ(0); 
-    opacity: 0.8;
-    z-index: 149;     
-
-    animation: wave-move 33s linear infinite;
-
-}
-
-
-/*<wave-canvas.-three> 파도3 - 맨 앞*/
-#minigame-overlay .wave-canvas.-three { 
-    position: absolute;
-    background-image: url("images/sea_wave.svg");
-    background-size: 300px 100%; 
-    height: 110% !important; 
-    top: 170px; 
-    filter: brightness(0.6) contrast(1.2); 
-    opacity: 0.5;
-    z-index: 205;
-    animation: wave-move 28s linear infinite reverse;
-
-}
-
-
-/* <bg-plus> 배경 꾸밈요소 (바다 바닥) */
-#minigame-overlay .bg-plus { 
-    position: absolute;
-    background-image: url("images/bg_plus1.png");
-    
-    /* 1. 이미지 비율 유지 (찌그러짐 방지) */
-    background-size: contain; 
-    background-repeat: repeat-x; /* 옆으로 계속 이어지게 */
-    background-position: bottom; /* 이미지 자체를 박스 하단에 배치 */
-
-    /* 2. 위치 잡기 */
-    width: 103%;       /* 가로로 꽉 차게 */
-    height: 300px;     /* 바닥 높이만큼만 설정 (110%는 너무 커요!) */
-    bottom: 0;         /* top 대신 bottom: 0을 써야 바닥에 딱 붙음 */
-    left: 0;
-
-    /* 3. 화면 순서 */
-    opacity: 0.5;
-    z-index: 150;      /* 파도나 다른 요소보다 뒤 혹은 앞인지 확인 필요 */
-    pointer-events: none; /* 클릭 방해 금지 (낚시 클릭 안 씹히게!) */
-}
-
-
-/*<boat-container> 배 움직임*/
-#minigame-overlay .boat-container {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -90%); /*배에 애니메이션 넣을거라 살짝 치우친 중앙에 배치*/
-    width: 480px;
-    height: 320px;
-    z-index: 150;
-
-    animation: boat-physics-bobbing 3.5s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
-    /*boat-physics-bobbing 애니메이션 사용. 3.5초 간격으로 둥실둥실 무한반복 */
-}
-
-/*<boat> 배 - 역사다리꼴 */
-#minigame-overlay .boat {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
-    background-color: #894F1C; 
-    border: 8px solid #5d3513;
-    clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%); /*네모(css 기본 요소)를 가위질해서 사다리꼴 만듦*/
-}
-
-
-/*<fisherman> 어부 전체_위치*/
-#minigame-overlay .fisherman {
-    position: absolute;
-    bottom: 90px;
-    left: 50%;
-    z-index: -1;  /*배 뒤에 배치 할 것_타고 있는 것처럼 보이게*/
-}
-
-/*<fisherman img> 어부_이미지 크기*/
-#minigame-overlay .fisherman img {
-    width: 100% !important;
-    height: auto !important; /*가로 길이에 맞춰 세로 길이를 자동으로 계산_비율 안 깨지게*/
-    display: block; /*빈틈 방지. 옆에 아무도 못 오게 막음 - 근데 z-index로 뚫림*/
-}
-
-/*<fish-style-0> 어부1*/
-/*game.js  <div class="fisherman fish-style-${idx % 3}"> */
-/*어부는 셋이 전부라 %3으로 돌려가며 씀.*/
-#minigame-overlay .fish-style-0 {
-    bottom: 40px;
-    width: 250px !important; 
-    transform: translate(calc(-50% + 145px), 0px); } /*중앙에서 145px만큼 이동.(반응형도 문제 없음.)*/
-
-/*<fish-style-1> 어부2*/
-#minigame-overlay .fish-style-1 {
-    bottom: 40px; 
-    width: 280px !important; 
-    transform: translate(calc(-50% + 160px), 0px); }
-
-/*<fish-style-2> 어부3*/
-#minigame-overlay .fish-style-2 { 
-    bottom: 40px; 
-    width: 280px !important;
-    transform: translate(calc(-50% + 160px), 0px); }
-
-/*<fishing-line> 낚싯줄*/
-#minigame-overlay .fishing-line {
-    position: absolute; 
-    width: 3px;
-    background: #fff; 
-    height: 150px;
-    transition: height 0.6s ease-in-out; /*낚싯줄 움직이는 효과*/
-    /*자바스크립트에서 조건에 따라 height가 변할 때_0.6초간 속도변화를 줌*/
-    z-index: 60;
-}
-
-/*<line-style-0 / line-style-1 / line-style-2> 낚싯줄 위치*/
-#minigame-overlay .line-style-0 { right: -30px; top: 55px; }
-#minigame-overlay .line-style-1 { right: -60px; top: 85px; }
-#minigame-overlay .line-style-2 { right: -60px; top: 90px; }
-
-/*<fish> 물고기 🐟*/
-#minigame-overlay .fish {
-    position: absolute; 
-    bottom: -35px; 
-    left: -20px; 
-    display: none; /*숨겨져 있다가 자바스크립트에서 신호를 받으면 짜쟌~ 하고 나옴.*/
-    font-size: 2.5rem; /*물고기 크기(이모지)*/
-    z-index: 71;
-
-    animation: struggle 0.2s infinite; /*struggle 애니메이션 사용. 파닥파닥 0.2초마다 무한반복*/ 
-
-}
-
-/*<float> 낚시 찌 🔴*/
-#minigame-overlay .float {
-    position: absolute;
-    bottom: -15px; 
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 1.2rem;
-    z-index: 70;
-}
+/*----------------------------------------------------------------------*/
+/*요소들*/
 
 /*<team-info> 팀이름+내역(왼쪽 위) 전체 영역*/
 #minigame-overlay .team-info {
@@ -310,12 +105,195 @@
     border-radius: 10px;
 }
 
+/*<wave-canvas> 파도 - 이미지 한 장으로 무한루프 고*/
+#minigame-overlay .wave-canvas {
+    position: absolute;
+    width: 200.5% !important;
+    height: 100%; 
+    background-position: left top !important; 
+    background-repeat: repeat-x; 
+    shape-rendering: crispEdges;
+    -webkit-transform: translateZ(0); 
 
+    animation: wave-move 25s linear infinite;
+}
 
-/*<game-result-overlay> 결과창*/
+/*<wave-canvas.-one> 파도1 - 왼쪽으로 흐름*/
+#minigame-overlay .wave-canvas.-one { 
+    position: absolute;
+    background-image: url("images/sea_wave.svg"); 
+    background-size: 300px 100% !important; 
+    box-shadow: -0.5px 0 0 #1A73E8, 0.5px 0 0 #1A73E8; 
+    top: 190px; 
+    filter: brightness(0.6) contrast(1.2);
+    transform: translateZ(0); 
+    opacity: 0.8;
+    z-index: 149;     
+
+    animation: wave-move 33s linear infinite;
+}
+
+/*<wave-canvas.-two> 파도2 - 위아래로 움직임*/
+#minigame-overlay .wave-canvas.-two { 
+    position: absolute;
+    background-image: url("images/sea_wave.svg");
+    background-size: 300px 100%; 
+    height: 110% !important;
+    top: 170px;
+    filter: brightness(0.8) contrast(1.2);
+    opacity: 0.4; 
+    z-index: 10;
+
+    animation: wave-move 33s linear infinite, just-up-down 5.5s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+
+}
+
+/*<wave-canvas.-three> 파도3 - 오른쪽으로 흐름*/
+#minigame-overlay .wave-canvas.-three { 
+    position: absolute;
+    background-image: url("images/sea_wave.svg");
+    background-size: 300px 100%; 
+    height: 110% !important; 
+    top: 170px; 
+    filter: brightness(0.6) contrast(1.2); 
+    opacity: 0.5;
+    z-index: 205;
+    animation: wave-move 28s linear infinite reverse; 
+
+}
+
+/* <bg-plus> 배경 꾸밈요소 (바다 바닥) */
+#minigame-overlay .bg-plus { 
+    position: absolute;
+    background-image: url("images/bg_plus1.png");
+    background-size: contain; 
+    background-repeat: repeat-x;
+    background-position: bottom;
+    width: 103%;    
+    height: 300px;     
+    bottom: 0;    
+    left: 0;
+    opacity: 0.5;
+    z-index: 150;      
+    pointer-events: none;
+}
+
+/*<boat-container> 배(배치, 정렬)*/
+#minigame-overlay .boat-container {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -90%);
+    width: 480px;
+    height: 320px;
+    z-index: 150;
+
+    animation: boat-physics-bobbing 3.5s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
+}
+
+/*<boat> 배 - 역사다리꼴 */
+#minigame-overlay .boat {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background-color: #894F1C; 
+    border: 8px solid #5d3513;
+    clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
+}
+
+/*<fisherman> 어부 전체_위치*/
+#minigame-overlay .fisherman {
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    z-index: -1;
+}
+
+/*<fisherman img> 어부_이미지 크기*/
+#minigame-overlay .fisherman img {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+}
+
+/*<fish-style-0> 어부1*/
+/*game.js) fish-style-${idx % 3} - 어부는 셋이 전부라 %3으로 돌려가며 씀.*/
+#minigame-overlay .fish-style-0 {
+    bottom: 40px;
+    width: 250px !important; 
+    transform: translate(calc(-50% + 145px), 0px); 
+} 
+
+/*<fish-style-1> 어부2*/
+#minigame-overlay .fish-style-1 {
+    bottom: 40px; 
+    width: 280px !important; 
+    transform: translate(calc(-50% + 160px), 0px); 
+}
+
+/*<fish-style-2> 어부3*/
+#minigame-overlay .fish-style-2 { 
+    bottom: 40px; 
+    width: 280px !important;
+    transform: translate(calc(-50% + 160px), 0px); 
+}
+
+/*<fishing-line> 낚싯줄*/
+#minigame-overlay .fishing-line {
+    position: absolute; 
+    width: 3px;
+    background: #fff; 
+    height: 150px;
+    transition: height 0.6s ease-in-out;
+    z-index: 60;
+}
+
+/*game.js) line-style-${styleIdx} - 어부별 낚싯줄 위치*/
+#minigame-overlay .line-style-0 {
+    right: -30px;
+    top: 55px; 
+}
+
+#minigame-overlay .line-style-1 {
+    right: -60px;
+    top: 85px; 
+}
+
+#minigame-overlay .line-style-2 {
+    right: -60px;
+    top: 90px; 
+}
+
+/*<float> 낚시 찌 🔴*/
+#minigame-overlay .float {
+    position: absolute;
+    bottom: -15px; 
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.2rem;
+    z-index: 70;
+}
+
+/*<fish> 물고기 🐟*/
+#minigame-overlay .fish {
+    position: absolute; 
+    bottom: -35px; 
+    left: -20px; 
+    display: none;
+    font-size: 2.5rem;
+    z-index: 71;
+
+    animation: struggle 0.2s infinite;
+}
+
+/*----------------------------------------------------------------------------*/
+/*결과창_game.js*/
+
+/*<game-result-overlay>*/
 #game-result-overlay {
     position: absolute;
-    display: none; /*숨어 있다 나올 예정*/
+    display: none;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -349,50 +327,32 @@
     padding: 5px;
 }
 
-
-
+/*----------------------------------------------------------------------------*/
 /*애니메이션*/
 
 /*보트 둥실둥실*/
 @keyframes boat-physics-bobbing { 
-    0%, 100% { transform: translate(-50%, -88%) rotate(-0.8deg); } /*시작0과 끝100을 같게 함*/
-    50% { transform: translate(-50%, -96%) rotate(1.5deg); } /*중간50*/
-    /*올라가면서 오른쪽으로 까딱 내려오면서 왼쪽으로 까딱*/
-    /*x축은 -50%로 고정. y축만 변화(-88 -> -96 -> -88), 기울임 변화(-0.8 -> 1.5 -> -0.8)   */ 
+    0%, 100% { transform: translate(-50%, -88%) rotate(-0.8deg); }
+    50% { transform: translate(-50%, -96%) rotate(1.5deg); }
 }
 
-/*물고기 파닥파닥*/
-/*왼오왼오왼오*/
+/*물고기 파닥파닥 - 왼오왼오왼오*/
 @keyframes struggle { 
     0% { transform: rotate(-10deg); } 
     100% { transform: rotate(10deg); } 
 }
 
 
-/*파도가 무한으로 돌아가는*/
+/*파도) 무한으로 돌아감*/
 @keyframes wave-move {
-    from { transform: translateX(0); } /*처음 시작지점*/
+    from { transform: translateX(0); }
     to { transform: translateX(-50%); } 
-    /*200으로 지정된 전체 영역에 100짜리 이미지 두 장을 이어붙임. 
-    wave-move 1회를 통해 50%를 갔다면 2회때는 두번째 이미지 자리에 있었던 첫번째가 된 이미지를 지나감.
-    영원히 이미지는 두 장이여야 하고, 0~50%만 이동하는 형태.
-    한 이미지씩 이동하고, 이미 지나간 이미지는 이제 갈 이미지 옆에 붙여 무한반복한다.
-
-            0              100               200
-            [  첫번째 이미지 ][  두번째 이미지  ]
-            --------------->50%
-
-50% 달성 시 이미지 바뀜
-->   첫번째가 된 두번째 였던 것    지나가서 다시 두번째가 된 첫번째 였던 것 
-            [   첫번째 이미지  ][  두번째 이미지  ]
-            --------------->50%  
-*/  
 }
 
 
-/*파도 위아래 움직임*/
+/*파도) 위아래 움직임*/
 @keyframes just-up-down {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); } /* -는 위로, +는 아래로! */
+    50% { transform: translateY(-20px); }
 }
 
